@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://doojinbaek.github.io/sitemap.xml
