@@ -2,7 +2,11 @@
 main:
   - title: "Home"
     url: "/"
-  - title: "About"
-    url: /about/
+  - title: "RL"
+    url: "/RL/"
   - title: "Category"
     url: "/categories/"
+  - title: "Tags"
+    url: /tags/
+  - title: "About"
+    url: /about/
