@@ -106,7 +106,7 @@ analytics:
 author:
   name             : "DOOJIN BAEK"
   avatar           : "image/image.png"
-  bio              : "알아두면 쓸데있는 <br> 두진'S 잡학사전 <br> <br> SoC @ KAIST <br> MLML @ KAIST <br> SCSE @ NTU <br> AI Engineer @ Spidercore Inc."
+  bio              : "알아두면 쓸데있는 <br> 두진'S 잡학사전" #"<br> <br> SoC @ KAIST <br> MLML @ KAIST <br> SCSE @ NTU <br> AI Engineer @ Spidercore Inc."
   location         : "Singapore"
   links:
     - label: "GMAIL"
