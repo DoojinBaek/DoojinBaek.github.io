@@ -1,3 +1,5 @@
+{% include base_path %}
+
 {% if post.header.teaser %}
   {% capture teaser %}{{ post.header.teaser }}{% endcapture %}
 {% else %}
@@ -10,21 +12,101 @@
   {% assign title = post.title %}
 {% endif %}
 
-<div class="{{ include.type | default: 'list' }}__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+<div class="{{ include.type | default: "list" }}__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
     {% if include.type == "grid" and teaser %}
       <div class="archive__item-teaser">
-        <img src="{{ teaser | relative_url }}" alt="">
+        <img src=
+          {% if teaser contains "://" %}
+            "{{ teaser }}"
+          {% else %}
+            "{{ teaser | prepend: "/images/" | prepend: base_path }}"
+          {% endif %}
+          alt="">
       </div>
     {% endif %}
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      {% if post.link %}
-        <a href="{{ post.link }}">{{ title }}</a> <a href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
-      {% else %}
-        <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
-      {% endif %}
-    </h2>
-    {% include page__meta.html type=include.type %}
-    {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
+
+    {% if post.collection == 'publications' %}
+      <h2 class="archive__item-title publication__title" itemprop="headline">{{ title }}</h2>
+    {% else %}
+      <h2 class="archive__item-title" itemprop="headline">
+        {% if post.link %}
+          <a href="{{ post.link }}">{{ title }}</a> <a href="{{ base_path }}{{ post.url }}" rel="permalink"><i class="fa fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
+        {% else %}
+          <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ title }}</a>
+        {% endif %}
+      </h2>
+    {% endif %}
+    
+    {% if post.read_time %}
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> {% include read-time.html %}</p>
+    {% endif %}
+
+        {% if post.collection == 'teaching' %}
+          <p> {{ post.type }}, <i>{{ post.venue }}</i>, {{ post.date | default: "1900-01-01" | date: "%Y" }} </p>
+        {% elsif post.collection == 'publications' %}
+          {% assign venue_text = post.venue | replace: 'Spotlight', '<span class="pub-badge">Spotlight</span>' | replace: 'Oral Presentation', '<span class="pub-badge">Oral Presentation</span>' %}
+          <p class="publication__venue">Published in <i>{{ venue_text }}</i>, {{ post.date | default: "1900-01-01" | date: "%Y" }}</p>
+        {% elsif post.date %}
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "Published:" }}</strong> <time datetime="{{ post.date | default: "1900-01-01" | date_to_xmlschema }}">{{ post.date | default: "1900-01-01" | date: "%B %d, %Y" }}</time></p>
+        {% endif %}
+
+    {% if post.excerpt and site.read_more != 'enabled' %}
+    <p class="archive__item-excerpt{% if post.collection == 'publications' %} publication__authors{% endif %}" itemprop="description">{{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' }}</p>
+    {% elsif post.excerpt and site.read_more == 'enabled' %}
+    <p class="archive__item-excerpt" itemprop="description"><p>{{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' }}<strong><a href="{{ base_path }}{{ post.url }}" rel="permalink"> Read more</a></strong></p></p>
+    {% endif %}
+    
+    {% if post.collection == 'publications' %}
+      <p class="publication__links">
+        {% assign link_count = 0 %}
+        {% if post.link and post.link contains '/publications/' %}
+          <a href="{{ post.link }}">Project</a>
+          {% assign link_count = link_count | plus: 1 %}
+        {% endif %}
+        {% if post.arxivurl %}
+          {% if link_count > 0 %} / {% endif %}<a href="{{ post.arxivurl }}">arXiv</a>
+          {% assign link_count = link_count | plus: 1 %}
+        {% endif %}
+        {% if post.paperurl and post.paperurl != post.arxivurl %}
+          {% if link_count > 0 %} / {% endif %}<a href="{{ post.paperurl }}">{% if post.paperurl contains '.pdf' or post.paperurl contains '/pdf/' %}PDF{% else %}Paper{% endif %}</a>
+          {% assign link_count = link_count | plus: 1 %}
+        {% endif %}
+        {% if post.openreviewurl %}
+          {% if link_count > 0 %} / {% endif %}<a href="{{ post.openreviewurl }}">OpenReview</a>
+          {% assign link_count = link_count | plus: 1 %}
+        {% endif %}
+        {% if link_count == 0 and post.paperurl %}
+          <a href="{{ post.paperurl }}">Paper</a>
+        {% endif %}
+      </p>
+    {% elsif post.citation and post.paperurl and post.slidesurl and post.bibtexurl %}
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Download Paper</a> | <a href="{{ post.slidesurl }}">Download Slides</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+    {% elsif post.citation and post.paperurl and post.slidesurl %}
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Download Paper</a> | <a href="{{ post.slidesurl }}">Download Slides</a></p>
+    {% elsif post.citation and post.paperurl and post.bibtexurl %}
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Download Paper</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+    {% elsif post.citation and post.paperurl %}
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Download Paper</a></p>
+    {% elsif post.citation and post.slidesurl and post.bibtexurl %}
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.slidesurl }}">Download Slides</a> | <a href="{{ post.bibtexurl}}">Download Bibtex</a></p>
+    {% elsif post.citation and post.slidesurl %}
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.slidesurl }}">Download Slides</a></p>
+    {% elsif post.citation and post.bibtexurl %}
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+    {% elsif post.citation %}
+      <p>Recommended citation: {{ post.citation }}</p>
+    {% elsif post.paperurl and post.bibtexurl %}
+      <p><a href="{{ post.paperurl }}">Download Paper</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+    {% elsif post.paperurl %}
+      <p><a href="{{ post.paperurl }}">Download Paper</a></p>
+    {% elsif post.slidesurl and post.bibtexurl %}
+      <p><a href="{{ post.slidesurl }}">Download Slides</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+    {% elsif post.slidesurl %}
+      <p><a href="{{ post.slidesurl }}">Download Slides</a></p>
+    {% elsif post.bibtexurl %}
+      <p><a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+    {% endif %}
+
   </article>
 </div>

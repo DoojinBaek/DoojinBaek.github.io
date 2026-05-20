@@ -1,0 +1,39 @@
+{
+  "basics": {
+    "name": "",
+    "email": "",
+    "phone": "",
+    "website": "https://doojinbaek.github.io",
+    "summary": "",
+    "location": {
+      "address": "",
+      "postalCode": "",
+      "city": "대전",
+      "countryCode": "KR",
+      "region": ""
+    },
+    "profiles": [
+      {
+        "network": "Google Scholar",
+        "username": "",
+        "url": "https://scholar.google.com/citations?user=11X2vTQAAAAJ&hl=ko&oi=ao"
+      },
+      {
+        "network": "GitHub",
+        "username": "DoojinBaek",
+        "url": "https://github.com/DoojinBaek"
+      }
+    ]
+  },
+  "work": [],
+  "education": [],
+  "skills": [],
+  "languages": [],
+  "interests": [],
+  "references": [],
+  "publications": [],
+  "presentations": [],
+  "teaching": [],
+  "volunteer": [],
+  "awards": []
+}

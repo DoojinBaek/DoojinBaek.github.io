@@ -1,0 +1,109 @@
+---
+layout: archive
+title: "Publications"
+permalink: /publications/
+author_profile: true
+---
+
+<style>
+  .pub-year {
+    margin: 1.55rem 0 0.85rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid #edf0f2;
+    color: #4b5563;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .pub-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pub-row {
+    display: grid;
+    grid-template-columns: 5.1rem minmax(0, 1fr);
+    gap: 1rem;
+    margin: 0 0 1.15rem;
+  }
+
+  .pub-venue {
+    color: #6b7280;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .pub-title {
+    margin: 0 0 0.1rem !important;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .pub-authors,
+  .pub-meta,
+  .pub-links {
+    margin: 0.05rem 0 !important;
+    line-height: 1.3;
+  }
+
+  .pub-badge {
+    color: #0077b6;
+    font-weight: 800;
+  }
+
+  @media (max-width: 640px) {
+    .pub-row {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+</style>
+
+{% if site.author.googlescholar %}
+  <div class="wordwrap">You can also find my articles on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
+{% endif %}
+
+{% assign publications_by_year = site.publications | sort: "date" | reverse | group_by_exp: "pub", "pub.date | date: '%Y'" %}
+
+{% for year_group in publications_by_year %}
+  <h2 class="pub-year">{{ year_group.name }}</h2>
+  <ul class="pub-list">
+    {% for post in year_group.items %}
+      {% assign short_venue = post.venue | split: " " | first | remove: "," %}
+      {% assign venue_name = post.venue | split: "," | first %}
+      {% assign venue_name = venue_name | replace: "ICML 2026", "International Conference on Machine Learning" %}
+      {% assign venue_name = venue_name | replace: "ICML 2025", "International Conference on Machine Learning" %}
+      {% assign venue_name = venue_name | replace: "ICML 2024", "International Conference on Machine Learning" %}
+      {% assign venue_name = venue_name | replace: "AAAI 2026", "AAAI Conference on Artificial Intelligence" %}
+      <li class="pub-row">
+        <div class="pub-venue">{{ short_venue }}</div>
+        <div>
+          <p class="pub-title">{{ post.title }}</p>
+          <p class="pub-authors">{{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+          <p class="pub-meta">
+            {{ venue_name }}, {{ post.date | date: "%Y" }}{% if post.venue contains "Spotlight" %}. <span class="pub-badge">Spotlight</span>{% elsif post.venue contains "Oral Presentation" %}. <span class="pub-badge">Oral Presentation</span>{% endif %}
+          </p>
+          <p class="pub-links">
+            {% assign link_count = 0 %}
+            {% if post.link and post.link contains '/publications/' %}
+              <a href="{{ post.link }}">Project</a>
+              {% assign link_count = link_count | plus: 1 %}
+            {% endif %}
+            {% if post.arxivurl %}
+              {% if link_count > 0 %} / {% endif %}<a href="{{ post.arxivurl }}">arXiv</a>
+              {% assign link_count = link_count | plus: 1 %}
+            {% endif %}
+            {% if post.paperurl and post.paperurl != post.arxivurl %}
+              {% if link_count > 0 %} / {% endif %}<a href="{{ post.paperurl }}">{% if post.paperurl contains '.pdf' or post.paperurl contains '/pdf/' %}PDF{% else %}Paper{% endif %}</a>
+              {% assign link_count = link_count | plus: 1 %}
+            {% endif %}
+            {% if post.openreviewurl %}
+              {% if link_count > 0 %} / {% endif %}<a href="{{ post.openreviewurl }}">OpenReview</a>
+            {% endif %}
+          </p>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endfor %}
