@@ -63,7 +63,7 @@ redirect_from:
   .news-date,
   .pub-venue {
     color: #6b7280;
-    font-weight: 700;
+    font-weight: 600;
     white-space: nowrap;
   }
 
@@ -78,7 +78,7 @@ redirect_from:
 
   .pub-title {
     margin: 0 0 0.1rem !important;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.35;
   }
 
@@ -97,7 +97,7 @@ redirect_from:
 
   .pub-badge {
     color: #0077b6;
-    font-weight: 800;
+    font-weight: 700;
   }
 
   @media (max-width: 640px) {
@@ -111,9 +111,9 @@ redirect_from:
 
 <div class="home-simple">
   <div class="home-intro">
-    <p>I am a master's student in the School of Computing at KAIST, working on machine learning research with MLML.</p>
-    <p>My research focuses on learning systems that reason with reusable structure. I am especially interested in world models, theory learning, compositional generalization, and explanation-driven learning.</p>
-    <p>Recently, I have been working on <strong>Learning to Theorize</strong>: how a model can infer executable theories from raw before-and-after observations and reuse learned primitives to explain new phenomena.</p>
+    <p>I am a master's student in the School of Computing at KAIST, advised by <a href="https://mlml.kaist.ac.kr/sungjinahn">Prof. Sungjin Ahn</a> at <a href="https://mlml.kaist.ac.kr/">MLML</a>. I received my B.S. in Computer Science from KAIST.</p>
+    <p>My research interests lie in world models, theory learning, compositional generalization, and explanation-driven learning. I am especially interested in how models can form structured abstractions from raw observations and reuse them to explain new phenomena.</p>
+    <p>Recently, I have been working on <strong>Learning to Theorize</strong>, a framework for inferring executable theories from observations without direct supervision of the underlying causes.</p>
   </div>
 
   <section class="home-section">

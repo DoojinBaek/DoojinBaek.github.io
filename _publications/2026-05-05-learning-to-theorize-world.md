@@ -8,10 +8,10 @@ venue: "ICML 2026, Spotlight (Top 2.2% = 536/23918)"
 venue_html: 'ICML 2026, <span class="spotlight">Spotlight (Top 2.2% = 536/23918)</span>'
 permalink: /publications/learning-to-theorize-the-world/
 authors: "Doojin Baek*, Gyubin Lee*, Junyeob Baek, Hosung Lee, Sungjin Ahn"
-authors_html: '<a href="https://scholar.google.com/citations?user=11X2vTQAAAAJ">Doojin Baek</a><sup>*,1</sup>, <a href="https://lee-gyubin.github.io/">Gyubin Lee</a><sup>*,1</sup>, <a href="https://dion-jy.github.io">Junyeob Baek</a><sup>1</sup>, <a href="https://confeitohs.notion.site">Hosung Lee</a><sup>1</sup>, <a href="https://mlml.kaist.ac.kr/sungjinahn">Sungjin Ahn</a><sup>1,2</sup>'
+authors_html: '<a href="https://scholar.google.com/citations?user=11X2vTQAAAAJ">Doojin Baek</a><sup>*,1</sup>, <a href="https://lee-gyubin.github.io/">Gyubin Lee</a><sup>*,1</sup>, <a href="https://dion-jy.github.io">Junyeob Baek</a><sup>1</sup>, <a href="https://confeitohs.notion.site">Hosung Lee</a><sup>1</sup>, <a href="https://mlml.kaist.ac.kr/sungjinahn">Sungjin Ahn</a><sup>1</sup>'
 equal_contribution: "* Equal contribution"
-affiliation: "Korea Advanced Institute of Science and Technology; New York University"
-affiliation_html: '<sup>1</sup>Korea Advanced Institute of Science and Technology &nbsp;&nbsp; <sup>2</sup>New York University'
+affiliation: "Korea Advanced Institute of Science and Technology"
+affiliation_html: '<sup>1</sup>Korea Advanced Institute of Science and Technology &nbsp;&nbsp'
 paperurl: "https://arxiv.org/pdf/2605.03413"
 arxivurl: "https://arxiv.org/abs/2605.03413"
 link: "/publications/learning-to-theorize-the-world/"
@@ -25,20 +25,20 @@ excerpt: "Doojin Baek\\*, Gyubin Lee\\*, Junyeob Baek, Hosung Lee, Sungjin Ahn."
   </figcaption>
 </figure>
 
-What does it mean to understand the world? Contemporary world models often operationalize understanding as accurate future prediction in latent or observation space. Developmental cognitive science, however, suggests a different view: human understanding emerges through the **construction of internal theories of how the world works**, even before mature language is acquired. Inspired by this theory-building view of cognition, we introduce **Learning-to-Theorize**, a learning paradigm for inferring explicit explanatory theories of the world from raw, non-textual observations.
+What does it mean to understand the world? Contemporary world models often operationalize understanding as accurate future prediction in latent or observation space, as in recent latent-dynamics and generative world-modeling work ([Hafner et al., 2024](https://arxiv.org/abs/2301.04104); [Bruce et al., 2024](https://arxiv.org/abs/2402.15391); [Zhu et al., 2024](https://arxiv.org/abs/2405.03520)). Developmental cognitive science, however, suggests a different view: human understanding emerges through the **construction of internal theories of how the world works**, even before mature language is acquired ([Tenenbaum et al., 2011](https://doi.org/10.1126/science.1192788); [Goddu and Gopnik, 2024](https://www.nature.com/articles/s44159-024-00300-5); [Dehaene et al., 2022](https://doi.org/10.1016/j.tics.2022.06.010)). Inspired by this theory-building view of cognition, we introduce **Learning-to-Theorize**, a learning paradigm for inferring explicit explanatory theories of the world from raw, non-textual observations.
 
 ## Background
 
-Most contemporary AI systems, including recent world models, are primarily optimized for future prediction in latent or observation space, reconstruction quality, or task-specific performance. These objectives do not require models to discover explicit, reusable mechanisms that explain how observations are generated and transformed. They can often be satisfied by learning entangled composite transformations that capture correlations among observed inputs and outputs.
+Most contemporary AI systems, including recent world models, are primarily optimized for future prediction in latent or observation space, reconstruction quality, or task-specific performance ([Hafner et al., 2018](https://arxiv.org/abs/1811.04551); [Hafner et al., 2019](https://arxiv.org/abs/1912.01603); [Hafner et al., 2020](https://arxiv.org/abs/2010.02193)). These objectives do not require models to discover explicit, reusable mechanisms that explain how observations are generated and transformed. They can often be satisfied by learning entangled composite transformations that capture correlations among observed inputs and outputs.
 
 This gap motivates the central question of the paper: **Can an artificial system learn to construct explicit explanatory theories of the world merely by observing raw, non-textual sensory inputs?** Addressing this question requires a shift in learning objectives: from fitting input-output mappings to discovering structured, compositional mechanisms that explain how observations are generated and transformed.
 
 ## Learning to Theorize
 
 ### Problem Definition
-The learner observes only independent pairs of raw observations <span class="math-inline">&#92;((x,y)&#92;)</span>. It does not receive program annotations, primitive labels, intermediate states, language descriptions, or task groups that reveal which examples share the same underlying mechanism. The only available evidence is that some hidden transformation turns <span class="math-inline">&#92;(x&#92;)</span> into <span class="math-inline">&#92;(y&#92;)</span>.
+The learner observes only independent pairs of raw observations <span class="math-inline">&#92;((x,y)&#92;)</span>. It does not receive program annotations, primitive labels, intermediate states, language descriptions, or task groups that reveal which examples share the same underlying mechanism, unlike many program-supervised or grouped-task settings ([Mao et al., 2019](https://arxiv.org/abs/1904.12584); [Nye et al., 2020](https://arxiv.org/abs/2003.05562); [Chollet, 2019](https://arxiv.org/abs/1911.01547)). The only available evidence is that some hidden transformation turns <span class="math-inline">&#92;(x&#92;)</span> into <span class="math-inline">&#92;(y&#92;)</span>.
 
-The learning problem is therefore not merely to reconstruct <span class="math-inline">&#92;(y&#92;)</span> from <span class="math-inline">&#92;(x&#92;)</span>, but to recover reusable structure from ungrouped before-and-after evidence. We define the ability to theorize the world as the capacity to (i) discover reusable abstract primitives across phenomena, (ii) learn how to compose them into structured explanations of complex observations, and (iii) explain novel phenomena by forming new compositions of the same primitives. While theories may be instantiated in many concrete forms, such as natural language, probabilistic programs, or symbolic programs, we formulate Learning-to-Theorize (L2T) as latent neural program induction from observation. In this formulation, programs act as executable representations of theories; accordingly, we use the terms **theory** and **program** interchangeably.
+The learning problem is therefore not merely to reconstruct <span class="math-inline">&#92;(y&#92;)</span> from <span class="math-inline">&#92;(x&#92;)</span>, but to recover reusable structure from ungrouped before-and-after evidence. We define the ability to theorize the world as the capacity to (i) discover reusable abstract primitives across phenomena, (ii) learn how to compose them into structured explanations of complex observations, and (iii) explain novel phenomena by forming new compositions of the same primitives. While theories may be instantiated in many concrete forms, such as natural language, probabilistic programs, or symbolic programs, we formulate Learning-to-Theorize (L2T) as latent neural program induction from observation. In this formulation, programs act as executable representations of theories, in the spirit of Language-of-Thought and program-learning accounts of abstraction ([Fodor, 1975](https://philpapers.org/rec/FODTLO); [Ellis et al., 2020](https://arxiv.org/abs/2006.08381)); accordingly, we use the terms **theory** and **program** interchangeably.
 
 #### Phenomenon and Generative Process.
 
@@ -80,7 +80,7 @@ The main evaluation criterion is **program transferability**. At test time, phen
 \mathcal{T}_{test}\cap\mathcal{T}_{train}=\emptyset.
 \]</div>
 
-The test set can include both new compositions of known primitives and programs longer than those realized during training. Thus, evaluation requires not only compositional generalization but also length generalization, or productivity.
+The test set can include both new compositions of known primitives and programs longer than those realized during training. Thus, evaluation requires not only compositional generalization but also length generalization, or productivity ([Lake and Baroni, 2018](https://arxiv.org/abs/1711.00350); [Lake and Baroni, 2023](https://www.nature.com/articles/s41586-023-06668-3)).
 
 We consider two phenomena <span class="math-inline">&#92;((x^{(1)},y^{(1)})&#92;)</span> and <span class="math-inline">&#92;((x^{(2)},y^{(2)})&#92;)</span> generated by the same latent program <span class="math-inline">&#92;(\tau&#92;)</span>. The model first infers a program <span class="math-inline">&#92;(\hat{\tau}&#92;)</span> from the support pair:
 
@@ -120,7 +120,7 @@ p_\theta(\tau,s \mid x)
 
 Here, <span class="math-inline">&#92;(p&#95;\theta(s&#95;1 \mid x)&#92;)</span> maps observations to latent states, <span class="math-inline">&#92;(p&#95;\theta(z&#95;{i&#95;k}\mid s&#95;k)&#92;)</span> defines a theory programmer that selects primitive operations, and <span class="math-inline">&#92;(p&#95;\theta(s&#95;{k+1}\mid s&#95;k,z&#95;{i&#95;k})&#92;)</span> defines a shared transition operator implementing primitive execution.
 
-Since exact marginalization is intractable, NEO introduces a variational posterior:
+Since exact marginalization is intractable, NEO introduces a variational posterior, following standard variational-inference machinery for latent-variable models ([Jordan et al., 1999](https://doi.org/10.1023/A:1007665907178); [Kingma and Welling, 2013](https://arxiv.org/abs/1312.6114)):
 
 <div class="math-display">\[
 q_\phi(\tau,s \mid x,y)
@@ -131,7 +131,7 @@ The theory programmer <span class="math-inline">&#92;(q&#95;\phi(z&#95;{i&#95;k}
 
 ### Minimum Description Length
 
-Assuming a fixed program length is unrealistic: simple phenomena should not be forced into unnecessarily long explanations. NEO therefore uses the Minimum Description Length principle and favors explanations that are both accurate and short. For each intermediate step <span class="math-inline">&#92;(k&#92;)</span>, the model decodes a reconstruction <span class="math-inline">&#92;(\hat{y}&#95;k=D&#95;\theta(s&#95;k)&#92;)</span> and selects
+Assuming a fixed program length is unrealistic: simple phenomena should not be forced into unnecessarily long explanations. NEO therefore uses the Minimum Description Length principle ([Grünwald, 2007](https://mitpress.mit.edu/9780262072816/the-minimum-description-length-principle/)) and favors explanations that are both accurate and short. For each intermediate step <span class="math-inline">&#92;(k&#92;)</span>, the model decodes a reconstruction <span class="math-inline">&#92;(\hat{y}&#95;k=D&#95;\theta(s&#95;k)&#92;)</span> and selects
 
 <div class="math-display">\[
 k^*=\arg\min_{k\in\{1,\dots,K+1\}}\lambda_{\text{MDL}}^k\,\ell(y,\hat{y}_k),
@@ -151,7 +151,7 @@ This prevents intermediate states from drifting into arbitrary latent regions th
 
 We introduce the **Observation-to-Theory Induction Benchmark (OTIB)** to evaluate whether a model can infer reusable primitives from raw observation pairs without supervision. Its central criterion is transferable explanation: a theory induced from one transition should generalize to new inputs, rather than memorizing instance-specific mappings.
 
-OTIB separates three regimes. The in-distribution test set uses held-out examples from the training program support. The compositional OOD set holds out program compositions within the same observable length range. The length OOD set uses longer programs than those seen during training. This separation is important because a model can appear successful on in-distribution reconstruction while failing to compose primitives in a new way.
+OTIB separates three regimes, following the spirit of systematic-generalization benchmarks for world models ([Kim et al., 2023](https://arxiv.org/abs/2311.09064)). The in-distribution test set uses held-out examples from the training program support. The compositional OOD set holds out program compositions within the same observable length range. The length OOD set uses longer programs than those seen during training. This separation is important because a model can appear successful on in-distribution reconstruction while failing to compose primitives in a new way.
 
 Each evaluation instance consists of a support pair <span class="math-inline">&#92;((x^{(1)},y^{(1)})&#92;)</span> and a query pair <span class="math-inline">&#92;((x^{(2)},y^{(2)})&#92;)</span> generated by the same latent program. Given the support pair, a model induces a theory <span class="math-inline">&#92;(\hat{\tau}&#92;)</span>. The induced theory is then executed on both <span class="math-inline">&#92;(x^{(1)}&#92;)</span> and <span class="math-inline">&#92;(x^{(2)}&#92;)</span>, producing <span class="math-inline">&#92;(\hat{y}^{(1)}&#92;)</span> and <span class="math-inline">&#92;(\hat{y}^{(2)}&#92;)</span>. **Self-explainability** measures whether the model explains the original support pair. **Transferability** measures whether the same inferred theory generalizes to the query input, rather than encoding instance-specific information about <span class="math-inline">&#92;(y^{(1)}&#92;)</span>.
 
@@ -190,7 +190,7 @@ The parameter <span class="math-inline">&#92;(\alpha\in\lbrace 0.33,0.66,1.00\rb
 
 ### Results
 
-The experiments ask whether NEO can (1) discover latent primitive operations that are never directly observed during training and (2) explain dynamics arising from previously unseen program compositions. The main failure mode to watch for is the gap between self-explainability and transferability. Monolithic latent baselines can often reconstruct the support target, but the same latent action does not transfer to a query input, indicating that it encodes instance-specific information rather than a reusable theory.
+The experiments ask whether NEO can (1) discover latent primitive operations that are never directly observed during training and (2) explain dynamics arising from previously unseen program compositions. The main failure mode to watch for is the gap between self-explainability and transferability. Monolithic latent baselines, motivated by recent latent-action models and latent program search ([Bruce et al., 2024](https://arxiv.org/abs/2402.15391); [Schmidt and Jiang, 2024](https://arxiv.org/abs/2312.10812); [Gao et al., 2025](https://arxiv.org/abs/2503.18938); [Macfarlane and Bonnet, 2025](https://arxiv.org/abs/2411.08706)), can often reconstruct the support target, but the same latent action does not transfer to a query input, indicating that it encodes instance-specific information rather than a reusable theory.
 
 <div class="figure-pair table-pair">
   <figure class="paper-figure pair-figure">
@@ -274,7 +274,7 @@ This proof of concept points toward world models that move beyond prediction-cen
 
 ## Limitations
 
-This work should be viewed as an initial proof of concept for Learning-to-Theorize. The current formulation assumes a relatively small, discrete set of primitives and short program lengths, which limits scalability to domains with long-horizon, continuous, or highly structured dynamics. Primitive semantics are induced through reconstruction and are therefore not guaranteed to align with human-interpretable concepts or truly causal factors. The inference procedure also relies on deterministic execution and reconstruction-based stopping criteria, which may be brittle under noise, ambiguity, or partial observability. The experiments are also restricted to controlled synthetic benchmarks. Extending L2T to richer real-world environments with complex perceptual inputs, stochastic dynamics, and open-ended theory spaces remains an important direction for future work.
+This work should be viewed as an initial proof of concept for Learning-to-Theorize. The current formulation assumes a relatively small, discrete set of primitives and short program lengths, which limits scalability to domains with long-horizon, continuous, or highly structured dynamics. Primitive semantics are induced through reconstruction and are therefore not guaranteed to align with human-interpretable concepts or truly causal factors, a broader challenge for causal representation learning ([Schölkopf et al., 2021](https://doi.org/10.1109/JPROC.2021.3058954)). The inference procedure also relies on deterministic execution and reconstruction-based stopping criteria, which may be brittle under noise, ambiguity, or partial observability. The experiments are also restricted to controlled synthetic benchmarks. Extending L2T to richer real-world environments with complex perceptual inputs, stochastic dynamics, and open-ended theory spaces remains an important direction for future work.
 
 ## BibTeX
 
