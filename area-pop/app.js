@@ -1,33 +1,31 @@
 const boardEl = document.querySelector("#board");
 const timeLabel = document.querySelector("#timeLabel");
 const scoreLabel = document.querySelector("#scoreLabel");
-const comboLabel = document.querySelector("#comboLabel");
 const bestLabel = document.querySelector("#bestLabel");
-const chainFill = document.querySelector("#chainFill");
 const timeFill = document.querySelector("#timeFill");
 const toastEl = document.querySelector("#toast");
 const overlayEl = document.querySelector("#overlay");
 const finalScoreEl = document.querySelector("#finalScore");
 const newButton = document.querySelector("#newButton");
 const soundButton = document.querySelector("#soundButton");
+const answerButton = document.querySelector("#answerButton");
 const againButton = document.querySelector("#againButton");
 
 const gameConfig = {
   rows: 10,
   cols: 14,
-  maxArea: 4,
+  maxArea: 5,
   extraSplit: 0.72,
   time: 60,
-  chainWindow: 2500,
   targetMoves: 72,
   sameValueLineGap: 2,
 };
 
 const boardCandidateCount = 18;
 const missScorePenalty = 5;
-const missTimePenalty = 0.75;
+const missTimePenalty = 1.00;
 
-const fruitColors = [
+const bubbleColors = [
   "#f45d5d",
   "#f58b4c",
   "#efb84f",
@@ -46,8 +44,6 @@ const state = {
   score: 0,
   best: Number(localStorage.getItem("area-pop-best") || 0),
   timeLeft: gameConfig.time,
-  combo: 0,
-  chainUntil: 0,
   selecting: false,
   hasDragged: false,
   activePointerId: null,
@@ -62,6 +58,7 @@ const state = {
   boardGeometry: null,
   selectionRenderFrame: null,
   lastWarningSecond: null,
+  showSolution: false,
 };
 
 const audioState = {
@@ -304,6 +301,12 @@ function updateSoundButton() {
   soundButton.setAttribute("aria-label", audioState.enabled ? "Mute sound" : "Unmute sound");
 }
 
+function updateAnswerButton() {
+  if (!answerButton) return;
+  answerButton.setAttribute("aria-pressed", state.showSolution ? "true" : "false");
+  answerButton.setAttribute("aria-label", state.showSolution ? "Hide answers" : "Show answers");
+}
+
 function setSoundEnabled(enabled) {
   audioState.enabled = enabled;
   localStorage.setItem("area-pop-sound", enabled ? "on" : "off");
@@ -318,17 +321,14 @@ function setSoundEnabled(enabled) {
   }
 }
 
-function playSuccessSound(area, combo) {
+function playSuccessSound(area) {
   if (!audioState.context || !audioState.enabled) return;
 
   const now = audioState.context.currentTime;
-  const base = 420 + area * 38 + Math.min(combo, 10) * 18;
+  const base = 420 + area * 42;
   playNoise(0.055, 0.12, 1500 + area * 120);
   playTone(base, now, 0.09, { type: "triangle", gain: 0.22 });
   playTone(base * 1.5, now + 0.045, 0.11, { type: "sine", gain: 0.16 });
-  if (combo > 2) {
-    playTone(base * 2, now + 0.095, 0.12, { type: "triangle", gain: 0.12 });
-  }
 }
 
 function playMissSound() {
@@ -564,7 +564,7 @@ function buildCells(config) {
     const cell = state.cells[idx(anchor.x, anchor.y)];
     cell.active = true;
     cell.value = piece.area;
-    cell.color = fruitColors[pieceIndex % fruitColors.length];
+    cell.color = bubbleColors[pieceIndex % bubbleColors.length];
     piece.anchorIndex = idx(anchor.x, anchor.y);
     placements.push({
       anchor: { x: anchor.x, y: anchor.y },
@@ -713,8 +713,6 @@ function resetGame() {
   state.toastUntil = 0;
   state.score = 0;
   state.timeLeft = gameConfig.time;
-  state.combo = 0;
-  state.chainUntil = 0;
   state.running = true;
   state.lastTick = performance.now();
   state.lastWarningSecond = null;
@@ -893,17 +891,7 @@ function showToast(text, duration = 900) {
 }
 
 function addScore(area) {
-  const now = performance.now();
-  if (now < state.chainUntil) {
-    state.combo += 1;
-  } else {
-    state.combo = 1;
-  }
-
-  state.chainUntil = now + gameConfig.chainWindow;
-  const multiplier = 1 + Math.min(4, Math.floor((state.combo - 1) / 3));
-  const chainBonus = state.combo > 1 ? state.combo * 2 : 0;
-  const gained = area * 10 * multiplier + chainBonus;
+  const gained = area * 10;
   state.score += gained;
 
   const label = `+${gained}`;
@@ -934,7 +922,7 @@ function clearRect(rect, area) {
 
   const score = addScore(area);
   addBurst(rect, score.label);
-  playSuccessSound(area, state.combo);
+  playSuccessSound(area);
 
   const left = activeAnchors();
   const moves = findMoves();
@@ -965,8 +953,6 @@ function finishSelection() {
   } else if (wasTap) {
     showToast("Drag a box", 500);
   } else {
-    state.combo = 0;
-    state.chainUntil = 0;
     state.score = Math.max(0, state.score - missScorePenalty);
     state.timeLeft = Math.max(0, state.timeLeft - missTimePenalty);
     playMissSound();
@@ -995,9 +981,6 @@ function tick(now) {
 
   if (state.running) {
     state.timeLeft -= dt;
-    if (state.combo > 0 && now > state.chainUntil) {
-      state.combo = 0;
-    }
     if (state.timeLeft <= 0) {
       state.timeLeft = 0;
       endGame();
@@ -1023,10 +1006,7 @@ function renderHud(now = performance.now()) {
   const timeHue = 4 + timeRatio * 142;
   timeLabel.textContent = Math.ceil(state.timeLeft).toString();
   scoreLabel.textContent = state.score.toLocaleString();
-  comboLabel.textContent = state.combo > 0 && now < state.chainUntil ? `${state.combo}x` : "0x";
   bestLabel.textContent = state.best.toLocaleString();
-  const chain = Math.max(0, state.chainUntil - now) / gameConfig.chainWindow;
-  chainFill.style.width = `${Math.round(chain * 100)}%`;
   timeFill.style.width = `${(timeRatio * 100).toFixed(3)}%`;
   timeFill.style.setProperty("--time-color", `hsl(${timeHue.toFixed(1)} 70% 46%)`);
 }
@@ -1046,12 +1026,12 @@ function render() {
       if (!cell.active) classes.push("removed");
       if (selected) classes.push("selected", state.selectionStatus);
 
-      const fruit =
+      const bubble =
         cell.active && cell.value !== null
-          ? `<span class="fruit" style="--fruit:${cell.color}">${cell.value}</span>`
+          ? `<span class="bubble" style="--bubble:${cell.color}">${cell.value}</span>`
           : "";
 
-      return `<div class="${classes.join(" ")}" data-index="${index}">${fruit}</div>`;
+      return `<div class="${classes.join(" ")}" data-index="${index}">${bubble}</div>`;
     })
     .join("");
 
@@ -1062,7 +1042,28 @@ function render() {
     )
     .join("");
 
-  boardEl.innerHTML = cells + bursts;
+  const solutionOverlay = state.showSolution
+    ? `<div class="solution-overlay" aria-hidden="true">${state.pieces
+        .map((piece, pieceIndex) => {
+          const pieceCells = new Set(piece.cells);
+          return piece.cells
+            .map((cellIndex) => {
+              const { x, y } = xy(cellIndex);
+              const classes = ["solution-cell"];
+              if (y === 0 || !pieceCells.has(idx(x, y - 1))) classes.push("edge-top");
+              if (x === state.cols - 1 || !pieceCells.has(idx(x + 1, y))) classes.push("edge-right");
+              if (y === state.rows - 1 || !pieceCells.has(idx(x, y + 1))) classes.push("edge-bottom");
+              if (x === 0 || !pieceCells.has(idx(x - 1, y))) classes.push("edge-left");
+              if (cellIndex === piece.anchorIndex) classes.push("anchor");
+              const color = bubbleColors[pieceIndex % bubbleColors.length];
+              return `<div class="${classes.join(" ")}" style="grid-column:${x + 1}; grid-row:${y + 1}; --solution-color:${color}"></div>`;
+            })
+            .join("");
+        })
+        .join("")}</div>`
+    : "";
+
+  boardEl.innerHTML = cells + solutionOverlay + bursts;
   renderHud();
 }
 
@@ -1134,7 +1135,15 @@ soundButton.addEventListener("click", async () => {
     playResetSound();
   }
 });
+if (answerButton) {
+  answerButton.addEventListener("click", () => {
+    state.showSolution = !state.showSolution;
+    updateAnswerButton();
+    render();
+  });
+}
 
 updateSoundButton();
+updateAnswerButton();
 resetGame();
 requestAnimationFrame(tick);

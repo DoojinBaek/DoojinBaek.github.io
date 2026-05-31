@@ -7,7 +7,7 @@
     <title>Area Pop</title>
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23172024'/%3E%3Ccircle cx='25' cy='36' r='15' fill='%23f45d5d'/%3E%3Cpath d='M37 17c8 0 12 5 12 5-7 6-16 2-16 2s0-7 4-7Z' fill='%233ebf86'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='25' fill='%2331aa78'/%3E%3Ccircle cx='42' cy='42' r='13' fill='%23000000' fill-opacity='.12'/%3E%3Ccircle cx='22' cy='21' r='8' fill='%23ffffff' fill-opacity='.62'/%3E%3C/svg%3E"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -20,31 +20,16 @@
             <h1>Area Pop</h1>
           </div>
         </div>
-
         <div class="stats">
           <div class="stat">
             <span>Score</span>
             <strong id="scoreLabel">0</strong>
           </div>
           <div class="stat">
-            <span>Combo</span>
-            <strong id="comboLabel">0x</strong>
-          </div>
-          <div class="stat">
             <span>Best</span>
             <strong id="bestLabel">0</strong>
           </div>
-          <div class="stat stat-chain">
-            <span>Chain</span>
-            <div class="chain">
-              <span id="chainFill"></span>
-            </div>
-          </div>
         </div>
-      </section>
-
-      <section class="play">
-        <div id="board" class="board" aria-label="Area Pop board"></div>
         <div class="play-footer">
           <div class="time-meter" aria-label="Time remaining">
             <div class="time-meter-head">
@@ -69,6 +54,10 @@
             </svg>
           </button>
         </div>
+      </section>
+
+      <section class="play">
+        <div id="board" class="board" aria-label="Area Pop board"></div>
         <div id="toast" class="toast" role="status" aria-live="polite"></div>
       </section>
 
