@@ -41,6 +41,8 @@ const state = {
   rows: gameConfig.rows,
   cols: gameConfig.cols,
   cells: [],
+  pieces: [],
+  solutionMoves: [],
   score: 0,
   best: Number(localStorage.getItem("area-pop-best") || 0),
   timeLeft: gameConfig.time,
@@ -142,9 +144,9 @@ function setupAudio() {
   const sfx = context.createGain();
   const compressor = context.createDynamicsCompressor();
 
-  master.gain.value = audioState.enabled ? 0.72 : 0;
-  music.gain.value = 0.16;
-  sfx.gain.value = 0.36;
+  master.gain.value = audioState.enabled ? 0.95 : 0;
+  music.gain.value = 0.42;
+  sfx.gain.value = 0.72;
 
   music.connect(master);
   sfx.connect(master);
@@ -255,7 +257,7 @@ function scheduleBgmPhrase() {
     const time = start + i * 0.18;
     playTone(note, time, 0.13, {
       type: "triangle",
-      gain: 0.026,
+      gain: 0.075,
       destination: audioState.music,
       attack: 0.015,
       release: 0.06,
@@ -264,7 +266,7 @@ function scheduleBgmPhrase() {
     if (i % 4 === 0) {
       playTone(note / 2, time, 0.28, {
         type: "sine",
-        gain: 0.018,
+        gain: 0.045,
         destination: audioState.music,
         attack: 0.025,
         release: 0.1,
@@ -308,7 +310,7 @@ function setSoundEnabled(enabled) {
   updateSoundButton();
 
   if (!audioState.context) return;
-  audioState.master.gain.setTargetAtTime(enabled ? 0.72 : 0, audioState.context.currentTime, 0.03);
+  audioState.master.gain.setTargetAtTime(enabled ? 0.95 : 0, audioState.context.currentTime, 0.03);
   if (enabled && audioState.started && state.running) {
     ensureAudio();
   } else if (!enabled) {
@@ -321,23 +323,23 @@ function playSuccessSound(area, combo) {
 
   const now = audioState.context.currentTime;
   const base = 420 + area * 38 + Math.min(combo, 10) * 18;
-  playNoise(0.055, 0.052, 1500 + area * 120);
-  playTone(base, now, 0.09, { type: "triangle", gain: 0.13 });
-  playTone(base * 1.5, now + 0.045, 0.11, { type: "sine", gain: 0.09 });
+  playNoise(0.055, 0.12, 1500 + area * 120);
+  playTone(base, now, 0.09, { type: "triangle", gain: 0.22 });
+  playTone(base * 1.5, now + 0.045, 0.11, { type: "sine", gain: 0.16 });
   if (combo > 2) {
-    playTone(base * 2, now + 0.095, 0.12, { type: "triangle", gain: 0.055 });
+    playTone(base * 2, now + 0.095, 0.12, { type: "triangle", gain: 0.12 });
   }
 }
 
 function playMissSound() {
-  playSweep(190, 105, 0.16, { type: "sawtooth", gain: 0.08, release: 0.04 });
+  playSweep(190, 105, 0.16, { type: "sawtooth", gain: 0.16, release: 0.04 });
 }
 
 function playResetSound() {
   if (!audioState.context || !audioState.enabled) return;
   const now = audioState.context.currentTime;
-  playTone(392, now, 0.08, { type: "triangle", gain: 0.07 });
-  playTone(523.25, now + 0.07, 0.1, { type: "triangle", gain: 0.08 });
+  playTone(392, now, 0.08, { type: "triangle", gain: 0.12 });
+  playTone(523.25, now + 0.07, 0.1, { type: "triangle", gain: 0.14 });
 }
 
 function playWarningSound(second) {
@@ -345,7 +347,7 @@ function playWarningSound(second) {
   const frequency = second <= 3 ? 920 : 760;
   playTone(frequency, audioState.context.currentTime, 0.055, {
     type: "square",
-    gain: second <= 3 ? 0.055 : 0.035,
+    gain: second <= 3 ? 0.12 : 0.08,
     release: 0.02,
   });
 }
@@ -356,7 +358,7 @@ function playEndSound() {
   [523.25, 659.25, 783.99, 1046.5].forEach((frequency, index) => {
     playTone(frequency, now + index * 0.095, 0.16, {
       type: "triangle",
-      gain: 0.075,
+      gain: 0.14,
       release: 0.06,
     });
   });
@@ -432,8 +434,13 @@ function anchorLinePenalty(anchor, value) {
 function clonePieces(pieces) {
   return pieces.map((piece) => ({
     area: piece.area,
+    anchorIndex: piece.anchorIndex,
     cells: [...piece.cells],
   }));
+}
+
+function cloneMoves(moves) {
+  return moves.map((move) => ({ ...move }));
 }
 
 function pointTouchesPiece(point, piece) {
@@ -471,87 +478,65 @@ function anchorContactPenalty(anchor, value, piece, placements) {
   }, 0);
 }
 
-function growPiece(seed, unassigned, targetSize) {
-  const cells = [seed];
-  const frontier = [];
-  unassigned.delete(seed);
-
-  neighborsOf(seed).forEach((neighbor) => {
-    if (unassigned.has(neighbor)) frontier.push(neighbor);
-  });
-
-  while (cells.length < targetSize && frontier.length) {
-    const next = frontier.splice(randInt(0, frontier.length - 1), 1)[0];
-    if (!unassigned.has(next)) continue;
-
-    unassigned.delete(next);
-    cells.push(next);
-
-    shuffled(neighborsOf(next)).forEach((neighbor) => {
-      if (unassigned.has(neighbor) && !frontier.includes(neighbor)) {
-        frontier.push(neighbor);
-      }
-    });
+function rectPiece(x, y, w, h) {
+  const cells = [];
+  for (let cy = y; cy < y + h; cy += 1) {
+    for (let cx = x; cx < x + w; cx += 1) {
+      cells.push(idx(cx, cy));
+    }
   }
 
-  return cells;
+  return { x, y, w, h, area: w * h, cells };
 }
 
-function mergeSinglePieces(pieces, config) {
-  const owners = new Map();
-  pieces.forEach((piece, pieceIndex) => {
-    piece.cells.forEach((cellIndex) => owners.set(cellIndex, pieceIndex));
-  });
+function partitionRect(x, y, w, h, config, pieces) {
+  const area = w * h;
+  const shouldSplit =
+    area > config.maxArea ||
+    (area > 4 && area > config.maxArea * 0.6 && Math.random() < config.extraSplit);
 
-  pieces.forEach((piece, pieceIndex) => {
-    if (piece.cells.length !== 1) return;
-
-    const neighborPieceIndexes = shuffled(neighborsOf(piece.cells[0]))
-      .map((neighbor) => owners.get(neighbor))
-      .filter((owner) => owner !== undefined && owner !== pieceIndex);
-    const targetIndex =
-      neighborPieceIndexes.find((owner) => pieces[owner].cells.length < config.maxArea) ?? neighborPieceIndexes[0];
-
-    if (targetIndex === undefined) return;
-    pieces[targetIndex].cells.push(piece.cells[0]);
-    owners.set(piece.cells[0], targetIndex);
-    piece.cells = [];
-  });
-
-  return pieces
-    .filter((piece) => piece.cells.length > 0)
-    .map((piece) => ({
-      cells: piece.cells.sort((a, b) => a - b),
-      area: piece.cells.length,
-    }));
-}
-
-function buildConnectedPieces(config) {
-  let best = null;
-
-  for (let attempt = 0; attempt < 120; attempt += 1) {
-    const unassigned = new Set(Array.from({ length: state.rows * state.cols }, (_, index) => index));
-    const pieces = [];
-
-    while (unassigned.size) {
-      const seed = choice([...unassigned]);
-      const maxSize = Math.min(config.maxArea, unassigned.size);
-      let targetSize = unassigned.size === 1 ? 1 : randInt(2, maxSize);
-      if (unassigned.size - targetSize === 1) {
-        targetSize = targetSize > 2 ? targetSize - 1 : Math.min(maxSize, targetSize + 1);
-      }
-      const cells = growPiece(seed, unassigned, targetSize);
-      pieces.push({ cells, area: cells.length });
-    }
-
-    const singleCount = pieces.filter((piece) => piece.cells.length === 1).length;
-    if (!best || singleCount < best.singleCount) {
-      best = { singleCount, pieces: clonePieces(pieces) };
-    }
-    if (singleCount === 0) return pieces;
+  if (!shouldSplit) {
+    pieces.push(rectPiece(x, y, w, h));
+    return;
   }
 
-  return mergeSinglePieces(best.pieces, config);
+  const splits = [];
+
+  for (let sx = 1; sx < w; sx += 1) {
+    const a = sx * h;
+    const b = (w - sx) * h;
+    if (a >= 2 && b >= 2) splits.push({ axis: "x", at: sx, balance: Math.abs(a - b) });
+  }
+
+  for (let sy = 1; sy < h; sy += 1) {
+    const a = sy * w;
+    const b = (h - sy) * w;
+    if (a >= 2 && b >= 2) splits.push({ axis: "y", at: sy, balance: Math.abs(a - b) });
+  }
+
+  if (!splits.length) {
+    pieces.push(rectPiece(x, y, w, h));
+    return;
+  }
+
+  const splitPool = splits
+    .sort((a, b) => a.balance - b.balance)
+    .slice(0, Math.max(2, Math.ceil(splits.length * 0.6)));
+  const split = choice(splitPool);
+
+  if (split.axis === "x") {
+    partitionRect(x, y, split.at, h, config, pieces);
+    partitionRect(x + split.at, y, w - split.at, h, config, pieces);
+  } else {
+    partitionRect(x, y, w, split.at, config, pieces);
+    partitionRect(x, y + split.at, w, h - split.at, config, pieces);
+  }
+}
+
+function buildRectPieces(config) {
+  const pieces = [];
+  partitionRect(0, 0, state.cols, state.rows, config, pieces);
+  return pieces;
 }
 
 function buildCells(config) {
@@ -563,7 +548,7 @@ function buildCells(config) {
     color: null,
   }));
 
-  const pieces = buildConnectedPieces(config);
+  const pieces = buildRectPieces(config);
 
   const placements = [];
   pieces.forEach((piece, pieceIndex) => {
@@ -580,16 +565,40 @@ function buildCells(config) {
     cell.active = true;
     cell.value = piece.area;
     cell.color = fruitColors[pieceIndex % fruitColors.length];
+    piece.anchorIndex = idx(anchor.x, anchor.y);
     placements.push({
       anchor: { x: anchor.x, y: anchor.y },
       piece,
       value: piece.area,
     });
   });
+  state.pieces = clonePieces(pieces);
 
   return {
     contactPenalty: generatedSameValueContactPenalty(placements),
   };
+}
+
+function buildSolutionPieces(moves, cells) {
+  const usedCells = new Set();
+  const sortedMoves = [...moves].sort((a, b) => {
+    const aChunky = a.w > 1 && a.h > 1 ? 1 : 0;
+    const bChunky = b.w > 1 && b.h > 1 ? 1 : 0;
+    return bChunky - aChunky || b.area - a.area || a.anchorIndex - b.anchorIndex;
+  });
+
+  return sortedMoves
+    .filter((move) => {
+      const moveCells = rectCells(move).filter((cellIndex) => cells[cellIndex].active);
+      if (moveCells.some((cellIndex) => usedCells.has(cellIndex))) return false;
+      moveCells.forEach((cellIndex) => usedCells.add(cellIndex));
+      return true;
+    })
+    .map((move) => ({
+      area: move.area,
+      anchorIndex: move.anchorIndex,
+      cells: rectCells(move).filter((cellIndex) => cells[cellIndex].active),
+    }));
 }
 
 function cloneCells(cells) {
@@ -645,6 +654,8 @@ function buildPlayableCells(config) {
       rows: state.rows,
       cols: state.cols,
       cells: cloneCells(state.cells),
+      pieces: clonePieces(state.pieces),
+      solutionMoves: cloneMoves(moves),
       moveCount: moves.length,
       linePenalty: sameValueLinePenalty(),
       contactPenalty,
@@ -672,6 +683,8 @@ function buildPlayableCells(config) {
     state.rows = best.rows;
     state.cols = best.cols;
     state.cells = cloneCells(best.cells);
+    state.solutionMoves = cloneMoves(best.solutionMoves);
+    state.pieces = clonePieces(best.pieces);
   }
 
   return best?.moveCount || 0;
@@ -765,14 +778,6 @@ function sumPrefix(prefix, stride, rect) {
   );
 }
 
-function isRectCorner(rect, x, y) {
-  const left = rect.x;
-  const right = rect.x + rect.w - 1;
-  const top = rect.y;
-  const bottom = rect.y + rect.h - 1;
-  return (x === left || x === right) && (y === top || y === bottom);
-}
-
 function areActiveCellsConnected(activeCells) {
   if (activeCells.length <= 1) return true;
 
@@ -814,11 +819,6 @@ function inspectRect(rect) {
 
   if (anchors.length !== 1) return { ok: false, reason: "anchors" };
 
-  const anchorPoint = xy(anchors[0].index);
-  if (!isRectCorner(rect, anchorPoint.x, anchorPoint.y)) {
-    return { ok: false, reason: "corner" };
-  }
-
   const area = activeCells.length;
   if (area !== anchors[0].cell.value) return { ok: false, reason: "area" };
   if (!areActiveCellsConnected(activeCells)) return { ok: false, reason: "split" };
@@ -839,7 +839,6 @@ function findMoves() {
         for (let y2 = ay; y2 < state.rows; y2 += 1) {
           for (let x2 = ax; x2 < state.cols; x2 += 1) {
             const rect = { x: x1, y: y1, w: x2 - x1 + 1, h: y2 - y1 + 1 };
-            if (!isRectCorner(rect, ax, ay)) continue;
 
             const activeArea = sumPrefix(prefixes.active, prefixes.stride, rect);
             if (activeArea !== cell.value) continue;
@@ -1114,6 +1113,9 @@ boardEl.addEventListener("pointercancel", (event) => {
 });
 
 window.addEventListener("resize", invalidateBoardGeometry);
+document.addEventListener("pointerdown", () => {
+  ensureAudio();
+});
 
 newButton.addEventListener("click", async () => {
   await ensureAudio();
