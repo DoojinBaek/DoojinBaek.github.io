@@ -627,45 +627,7 @@ h1 {
 
 @media (max-width: 620px) {
   .hud {
-    grid-template-columns: minmax(118px, 0.78fr) minmax(104px, 0.58fr) minmax(0, 1.3fr);
-  }
-
-  .brand {
-    padding-inline: 10px;
-  }
-
-  h1 {
-    font-size: 1.22rem;
-  }
-
-  .stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .stat {
-    padding-inline: 9px;
-  }
-
-  .play-footer {
-    grid-template-columns: minmax(0, 1fr) 40px 40px;
-    gap: 5px;
-    padding-inline: 7px;
-  }
-
-  .time-meter {
-    gap: 7px;
-    padding-inline: 7px;
-  }
-
-  .icon-tool {
-    width: 40px;
-    height: 40px;
-  }
-}
-
-@media (max-width: 380px) {
-  .hud {
-    grid-template-columns: 48px minmax(96px, 0.8fr) minmax(0, 1.2fr);
+    grid-template-columns: 54px minmax(0, 1fr) minmax(132px, 0.95fr);
   }
 
   .brand {
@@ -677,14 +639,91 @@ h1 {
     display: none;
   }
 
+  .mark {
+    width: 36px;
+    height: 36px;
+  }
+
+  h1 {
+    font-size: 1.22rem;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat {
+    padding: 8px 7px;
+  }
+
+  .stat span {
+    font-size: 0.62rem;
+  }
+
+  .stat strong {
+    margin-top: 2px;
+    font-size: 1rem;
+  }
+
+  .play-footer {
+    min-height: 48px;
+    grid-template-columns: minmax(0, 1fr) 38px 38px;
+    gap: 4px;
+    padding: 5px 6px;
+  }
+
+  .time-meter {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 6px;
+    padding: 5px 6px;
+  }
+
+  .time-meter-head span {
+    display: none;
+  }
+
   .icon-tool {
     width: 38px;
     height: 38px;
   }
 
+  .icon-tool svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hud {
+    grid-template-columns: 46px minmax(0, 1fr) minmax(120px, 0.9fr);
+  }
+
+  .brand {
+    justify-content: center;
+    padding: 7px;
+  }
+
+  .brand > div:last-child {
+    display: none;
+  }
+
+  .icon-tool {
+    width: 34px;
+    height: 34px;
+  }
+
   .play-footer {
-    grid-template-columns: minmax(0, 1fr) 38px 38px;
-    padding-inline: 6px;
+    grid-template-columns: minmax(0, 1fr) 34px 34px;
+    padding-inline: 5px;
+  }
+
+  .time-meter {
+    gap: 5px;
+    padding-inline: 5px;
+  }
+
+  .stat strong {
+    font-size: 0.94rem;
   }
 }
 
@@ -785,7 +824,7 @@ h1 {
 
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
   :root {
-    --game-width: min(calc(100vw - 18px), 760px, max(320px, calc((100svh - 128px) * 1.4)));
+    --game-width: min(calc(100vw - 18px), 720px, max(300px, calc((100svh - 154px) * 1.4)));
   }
 
   .app {
@@ -796,7 +835,7 @@ h1 {
       max(8px, env(safe-area-inset-right))
       calc(6px + env(safe-area-inset-bottom))
       max(8px, env(safe-area-inset-left));
-    gap: 8px;
+    gap: 6px;
   }
 
   .hud {
