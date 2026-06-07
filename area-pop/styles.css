@@ -824,7 +824,7 @@ h1 {
 
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
   :root {
-    --game-width: min(calc(100vw - 120px), 760px, max(300px, calc((100svh - 18px) * 1.4)));
+    --game-width: min(calc(100vw - 94px), 800px, max(300px, calc((100svh - 18px) * 1.4)));
   }
 
   body {
@@ -841,17 +841,17 @@ h1 {
       calc(6px + env(safe-area-inset-bottom))
       max(8px, env(safe-area-inset-left));
     display: grid;
-    grid-template-columns: 96px var(--game-width);
+    grid-template-columns: 76px var(--game-width);
     grid-template-rows: minmax(0, auto);
     align-content: center;
     align-items: center;
     justify-content: center;
     justify-items: stretch;
-    gap: 8px;
+    gap: 6px;
   }
 
   .hud {
-    width: 96px;
+    width: 76px;
     height: min(100%, calc(100svh - 12px));
     align-self: center;
     display: grid;
@@ -862,7 +862,7 @@ h1 {
   .brand {
     justify-content: center;
     gap: 0;
-    padding: 8px;
+    padding: 7px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
@@ -872,8 +872,8 @@ h1 {
   }
 
   .mark {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
   }
 
   h1 {
@@ -887,7 +887,7 @@ h1 {
   }
 
   .stat {
-    padding: 7px 8px;
+    padding: 6px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
     text-align: center;
@@ -899,29 +899,29 @@ h1 {
 
   .stat span,
   .time-meter-head span {
-    font-size: 0.62rem;
+    font-size: 0.56rem;
   }
 
   .stat strong {
     margin-top: 2px;
-    font-size: 1.02rem;
+    font-size: 0.92rem;
   }
 
   .play-footer {
     min-height: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) 36px 36px;
+    grid-template-rows: minmax(0, 1fr) 34px 34px;
     align-items: stretch;
-    gap: 6px;
-    padding: 7px;
+    gap: 5px;
+    padding: 6px;
   }
 
   .time-meter {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    align-content: center;
-    gap: 6px;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: stretch;
+    gap: 7px;
     padding: 0;
     text-align: center;
   }
@@ -932,22 +932,36 @@ h1 {
   }
 
   .time-meter-head strong {
-    font-size: 1.08rem;
+    font-size: 1rem;
   }
 
   .time-bar {
-    width: 100%;
-    height: 8px;
+    width: 8px;
+    height: 100%;
+    min-height: 62px;
+    justify-self: center;
+    display: flex;
+    align-items: flex-end;
+    border-radius: 999px;
+  }
+
+  .time-bar span {
+    width: 100% !important;
+    height: calc(var(--time-ratio, 1) * 100%);
+    transition:
+      height 80ms linear,
+      background-color 180ms linear,
+      background 180ms linear;
   }
 
   .icon-tool {
     width: 100%;
-    height: 36px;
+    height: 34px;
   }
 
   .icon-tool svg {
-    width: 19px;
-    height: 19px;
+    width: 18px;
+    height: 18px;
   }
 
   .board {

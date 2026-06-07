@@ -1048,6 +1048,7 @@ function renderHud(now = performance.now()) {
   scoreLabel.textContent = state.score.toLocaleString();
   bestLabel.textContent = state.best.toLocaleString();
   timeFill.style.width = `${(timeRatio * 100).toFixed(3)}%`;
+  timeFill.style.setProperty("--time-ratio", timeRatio.toFixed(4));
   timeFill.style.setProperty("--time-color", `hsl(${timeHue.toFixed(1)} 70% 46%)`);
 }
 
