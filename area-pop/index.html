@@ -57,16 +57,17 @@
       </section>
 
       <section class="play">
-        <div id="board" class="board" aria-label="Area Pop board"></div>
-        <div id="toast" class="toast" role="status" aria-live="polite"></div>
-      </section>
-
-      <section id="overlay" class="overlay" hidden>
-        <div class="result">
-          <span>Game Over</span>
-          <strong id="finalScore">0</strong>
-          <button id="againButton" class="tool primary" type="button">Again</button>
+        <div class="board-shell">
+          <div id="board" class="board" aria-label="Area Pop board"></div>
+          <section id="overlay" class="overlay" hidden>
+            <div class="result">
+              <span id="overlayTitle">Game Over</span>
+              <strong id="finalScore">0</strong>
+              <button id="againButton" class="tool primary" type="button">Again</button>
+            </div>
+          </section>
         </div>
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
       </section>
     </main>
 

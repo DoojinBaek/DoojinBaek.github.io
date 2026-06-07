@@ -5,6 +5,7 @@ const bestLabel = document.querySelector("#bestLabel");
 const timeFill = document.querySelector("#timeFill");
 const toastEl = document.querySelector("#toast");
 const overlayEl = document.querySelector("#overlay");
+const overlayTitleEl = document.querySelector("#overlayTitle");
 const finalScoreEl = document.querySelector("#finalScore");
 const newButton = document.querySelector("#newButton");
 const soundButton = document.querySelector("#soundButton");
@@ -51,6 +52,7 @@ const state = {
   end: null,
   selectionStatus: "neutral",
   bursts: [],
+  phase: "ready",
   running: true,
   endTimer: null,
   lastTick: performance.now(),
@@ -141,9 +143,9 @@ function setupAudio() {
   const sfx = context.createGain();
   const compressor = context.createDynamicsCompressor();
 
-  master.gain.value = audioState.enabled ? 0.95 : 0;
-  music.gain.value = 0.42;
-  sfx.gain.value = 0.72;
+  master.gain.value = audioState.enabled ? 1.50 : 0;
+  music.gain.value = 1.00;
+  sfx.gain.value = 1.00;
 
   music.connect(master);
   sfx.connect(master);
@@ -706,14 +708,47 @@ function cancelPendingEnd() {
   }
 }
 
-function resetGame() {
+function showReadyOverlay() {
+  overlayTitleEl.textContent = "Ready";
+  finalScoreEl.hidden = true;
+  againButton.textContent = "Start";
+  overlayEl.classList.add("is-ready");
+  overlayEl.hidden = false;
+}
+
+function showGameOverOverlay() {
+  overlayTitleEl.textContent = "Game Over";
+  finalScoreEl.hidden = false;
+  finalScoreEl.textContent = state.score.toLocaleString();
+  againButton.textContent = "Again";
+  overlayEl.classList.remove("is-ready");
+  overlayEl.hidden = false;
+}
+
+function startGame() {
   cancelPendingEnd();
   resetSelection();
+  state.phase = "playing";
+  state.running = true;
+  state.lastTick = performance.now();
+  state.lastWarningSecond = null;
+  overlayEl.classList.remove("is-ready");
+  overlayEl.hidden = true;
+  if (audioState.started && audioState.enabled) startBgm();
+  showToast("Go");
+  render();
+}
+
+function resetGame({ autoStart = false } = {}) {
+  cancelPendingEnd();
+  resetSelection();
+  stopBgm();
   state.bursts = [];
   state.toastUntil = 0;
   state.score = 0;
   state.timeLeft = gameConfig.time;
-  state.running = true;
+  state.phase = "ready";
+  state.running = false;
   state.lastTick = performance.now();
   state.lastWarningSecond = null;
   overlayEl.hidden = true;
@@ -721,8 +756,12 @@ function resetGame() {
   buildPlayableCells(gameConfig);
 
   boardEl.style.setProperty("--cols", state.cols);
-  if (audioState.started && audioState.enabled) startBgm();
-  showToast("Ready");
+  showToast(autoStart ? "Go" : "Ready");
+  if (autoStart) {
+    startGame();
+    return;
+  }
+  showReadyOverlay();
   render();
 }
 
@@ -963,15 +1002,16 @@ function finishSelection() {
 }
 
 function endGame() {
+  if (state.phase === "ended") return;
   state.running = false;
+  state.phase = "ended";
   cancelPendingEnd();
   resetSelection();
   stopBgm();
   playEndSound();
   state.best = Math.max(state.best, state.score);
   localStorage.setItem("area-pop-best", String(state.best));
-  finalScoreEl.textContent = state.score.toLocaleString();
-  overlayEl.hidden = false;
+  showGameOverOverlay();
   render();
 }
 
@@ -1126,7 +1166,11 @@ newButton.addEventListener("click", async () => {
 againButton.addEventListener("click", async () => {
   await ensureAudio();
   playResetSound();
-  resetGame();
+  if (state.phase === "ready") {
+    startGame();
+  } else {
+    resetGame({ autoStart: true });
+  }
 });
 soundButton.addEventListener("click", async () => {
   setSoundEnabled(!audioState.enabled);

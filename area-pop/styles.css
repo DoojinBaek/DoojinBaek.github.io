@@ -64,7 +64,7 @@ button {
 .hud {
   width: var(--game-width);
   display: grid;
-  grid-template-columns: minmax(180px, 0.82fr) minmax(150px, 0.7fr) minmax(0, 1.15fr);
+  grid-template-columns: minmax(170px, 0.78fr) minmax(130px, 0.58fr) minmax(230px, 1.2fr);
   align-items: stretch;
   overflow: hidden;
   background: rgb(255 255 255 / 90%);
@@ -189,7 +189,6 @@ h1 {
 }
 
 .play {
-  position: relative;
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -199,14 +198,20 @@ h1 {
   gap: 8px;
 }
 
+.board-shell {
+  position: relative;
+  width: var(--game-width);
+  min-width: 0;
+  justify-self: center;
+}
+
 .board {
   --cols: 9;
   --gap: 4px;
   --board-pad: 8px;
   position: relative;
-  width: var(--game-width);
+  width: 100%;
   min-width: 0;
-  justify-self: center;
   display: grid;
   grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   gap: var(--gap);
@@ -224,7 +229,7 @@ h1 {
 .play-footer {
   min-height: 58px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) 42px 42px;
   align-items: center;
   gap: 6px;
   padding: 8px 8px 8px 10px;
@@ -232,6 +237,7 @@ h1 {
 
 .time-meter {
   min-width: 0;
+  overflow: hidden;
   display: grid;
   grid-template-columns: auto auto minmax(0, 1fr);
   align-items: center;
@@ -259,7 +265,7 @@ h1 {
 
 .time-bar {
   height: 10px;
-  min-width: 80px;
+  min-width: 0;
   overflow: hidden;
   border-radius: 999px;
   background: #dce6df;
@@ -465,12 +471,20 @@ h1 {
 }
 
 .overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
+  z-index: 20;
   display: grid;
   place-items: center;
   padding: 20px;
-  background: rgb(23 32 29 / 58%);
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgb(23 32 29 / 18%);
+  backdrop-filter: blur(9px) brightness(0.82) saturate(82%);
+}
+
+.overlay.is-ready {
+  background: rgb(23 32 29 / 16%);
 }
 
 .overlay[hidden] {
@@ -479,6 +493,7 @@ h1 {
 
 .result {
   width: min(320px, 100%);
+  position: relative;
   display: grid;
   gap: 16px;
   padding: 22px;
@@ -488,16 +503,42 @@ h1 {
   text-align: center;
 }
 
+.overlay.is-ready .result {
+  width: min(380px, calc(100% - 36px));
+  gap: 22px;
+  padding: 30px 34px 34px;
+  background: rgb(255 255 255 / 96%);
+  box-shadow:
+    0 26px 64px rgb(21 38 33 / 22%),
+    0 1px 0 rgb(255 255 255 / 70%) inset;
+}
+
 .result span {
   color: var(--muted);
   font-weight: 900;
   text-transform: uppercase;
 }
 
+.overlay.is-ready #overlayTitle {
+  display: block;
+  color: #66727a;
+  font-size: 1.45rem;
+  letter-spacing: 0;
+}
+
 .result strong {
   font-size: 3rem;
   line-height: 1;
   font-variant-numeric: tabular-nums;
+}
+
+.overlay.is-ready .tool {
+  width: 100%;
+  min-height: 58px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  background: var(--ink);
 }
 
 @keyframes burst-pop {
@@ -568,6 +609,85 @@ h1 {
   }
 }
 
+@media (max-width: 700px) {
+  .overlay {
+    padding: 10px;
+  }
+
+  .overlay.is-ready .result {
+    width: min(340px, calc(100% - 18px));
+    padding: 26px 28px 30px;
+  }
+
+  .overlay.is-ready .tool {
+    min-height: 54px;
+    font-size: 1.12rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .hud {
+    grid-template-columns: minmax(118px, 0.78fr) minmax(104px, 0.58fr) minmax(0, 1.3fr);
+  }
+
+  .brand {
+    padding-inline: 10px;
+  }
+
+  h1 {
+    font-size: 1.22rem;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat {
+    padding-inline: 9px;
+  }
+
+  .play-footer {
+    grid-template-columns: minmax(0, 1fr) 40px 40px;
+    gap: 5px;
+    padding-inline: 7px;
+  }
+
+  .time-meter {
+    gap: 7px;
+    padding-inline: 7px;
+  }
+
+  .icon-tool {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hud {
+    grid-template-columns: 48px minmax(96px, 0.8fr) minmax(0, 1.2fr);
+  }
+
+  .brand {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .brand > div:last-child {
+    display: none;
+  }
+
+  .icon-tool {
+    width: 38px;
+    height: 38px;
+  }
+
+  .play-footer {
+    grid-template-columns: minmax(0, 1fr) 38px 38px;
+    padding-inline: 6px;
+  }
+}
+
 @media (min-width: 620px) {
   .stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -591,7 +711,7 @@ h1 {
   }
 
   .hud {
-    grid-template-columns: 220px 260px minmax(0, 1fr);
+    grid-template-columns: 220px 260px minmax(280px, 1fr);
   }
 
   .brand {
@@ -660,5 +780,98 @@ h1 {
 
   :root {
     --game-width: min(100%, max(260px, calc((100svh - 260px) * 1.4)));
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (orientation: landscape) {
+  :root {
+    --game-width: min(calc(100vw - 18px), 760px, max(320px, calc((100svh - 128px) * 1.4)));
+  }
+
+  .app {
+    width: 100%;
+    min-height: 100dvh;
+    padding:
+      calc(6px + env(safe-area-inset-top))
+      max(8px, env(safe-area-inset-right))
+      calc(6px + env(safe-area-inset-bottom))
+      max(8px, env(safe-area-inset-left));
+    gap: 8px;
+  }
+
+  .hud {
+    grid-template-columns: minmax(140px, 0.78fr) minmax(128px, 0.62fr) minmax(220px, 1.25fr);
+  }
+
+  .brand {
+    gap: 9px;
+    padding: 8px 10px;
+  }
+
+  .mark {
+    width: 34px;
+    height: 34px;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  .stat {
+    padding: 8px 10px;
+  }
+
+  .stat span,
+  .time-meter-head span {
+    font-size: 0.68rem;
+  }
+
+  .stat strong {
+    margin-top: 2px;
+    font-size: 1.22rem;
+  }
+
+  .play-footer {
+    min-height: 44px;
+    grid-template-columns: minmax(0, 1fr) 36px 36px;
+    gap: 5px;
+    padding: 5px 6px;
+  }
+
+  .time-meter {
+    gap: 7px;
+    padding: 5px 7px;
+  }
+
+  .time-meter-head strong {
+    font-size: 0.98rem;
+  }
+
+  .icon-tool {
+    width: 36px;
+    height: 36px;
+  }
+
+  .icon-tool svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .board {
+    --gap: 3px;
+    --board-pad: 8px;
+  }
+
+  .cell {
+    border-radius: 7px;
+  }
+
+  .bubble {
+    font-size: 1rem;
+  }
+
+  .toast {
+    min-height: 18px;
+    font-size: 0.78rem;
   }
 }
