@@ -18,7 +18,9 @@
   --accent: #f06d53;
   --accent-2: #5a83f1;
   --shadow: 0 14px 35px rgb(31 49 58 / 13%);
-  --game-width: min(100%, 840px, max(320px, calc((100svh - 250px) * 1.4)));
+  --board-ratio: 1.5;
+  --board-max-width: 900px;
+  --game-width: min(100%, var(--board-max-width), max(320px, calc((100svh - 250px) * var(--board-ratio))));
 }
 
 * {
@@ -818,13 +820,13 @@ h1 {
   }
 
   :root {
-    --game-width: min(100%, max(260px, calc((100svh - 260px) * 1.4)));
+    --game-width: min(100%, max(260px, calc((100svh - 260px) * var(--board-ratio))));
   }
 }
 
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
   :root {
-    --game-width: min(calc(100vw - 80px), 820px, max(300px, calc((100svh - 18px) * 1.4)));
+    --game-width: min(calc(100vw - 80px), var(--board-max-width), max(300px, calc((100svh - 18px) * var(--board-ratio))));
   }
 
   body {

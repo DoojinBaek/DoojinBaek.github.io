@@ -12,15 +12,30 @@ const soundButton = document.querySelector("#soundButton");
 const answerButton = document.querySelector("#answerButton");
 const againButton = document.querySelector("#againButton");
 
-const gameConfig = {
+const boardSettings = {
   rows: 10,
-  cols: 14,
-  maxArea: 5,
+  cols: 16,
+  targetMoveDensity: 0.515,
+  cellMaxSize: 60,
+};
+
+const gameConfig = {
+  rows: boardSettings.rows,
+  cols: boardSettings.cols,
+  maxArea: 4,
   extraSplit: 0.72,
   time: 60,
-  targetMoves: 72,
+  targetMoves: Math.round(boardSettings.rows * boardSettings.cols * boardSettings.targetMoveDensity),
   sameValueLineGap: 2,
 };
+
+function applyBoardSettings() {
+  const ratio = boardSettings.cols / boardSettings.rows;
+  document.documentElement.style.setProperty("--board-ratio", ratio.toFixed(4));
+  document.documentElement.style.setProperty("--board-max-width", `${boardSettings.cols * boardSettings.cellMaxSize}px`);
+}
+
+applyBoardSettings();
 
 const boardCandidateCount = 18;
 const missScorePenalty = 5;
