@@ -7,7 +7,9 @@ sitemap: false
 
 # Area Pop Support
 
-For support, bug reports, or privacy questions, contact the developer through this support page.
+For support, bug reports, or privacy questions, contact:
+
+[doojin.a.baek@gmail.com](mailto:doojin.a.baek@gmail.com)
 
 When reporting a bug, include:
 

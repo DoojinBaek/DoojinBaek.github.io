@@ -19,4 +19,4 @@ Area Pop does not track users across apps or websites.
 
 If advertising, analytics, online services, or other third-party SDKs are added in a future version, this privacy policy and the App Store privacy details will be updated before that version is submitted for review.
 
-Contact: [Area Pop Support](/area-pop/support/)
+Contact: [doojin.a.baek@gmail.com](mailto:doojin.a.baek@gmail.com)
