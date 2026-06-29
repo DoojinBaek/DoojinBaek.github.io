@@ -121,7 +121,7 @@ redirect_from:
     <ul class="news-list">
       <li class="news-row">
         <div class="news-date">May 2026</div>
-        <div>Our paper <em>Learning to Theorize the World from Observation</em> was selected as an ICML 2026 <strong>Spotlight</strong>.</div>
+        <div>Our paper <em>Learning to Theorize the World from Observation</em> was selected for an ICML 2026 <strong>Oral Presentation</strong>.</div>
       </li>
       <li class="news-row">
         <div class="news-date">Mar 2026</div>
@@ -144,7 +144,7 @@ redirect_from:
         <div>
           <p class="pub-title">Learning to Theorize the World from Observation</p>
           <p class="pub-authors"><strong>Doojin Baek</strong>*, Gyubin Lee*, Junyeob Baek, Hosung Lee, Sungjin Ahn</p>
-          <p class="pub-meta">International Conference on Machine Learning, 2026. <span class="pub-badge">Spotlight</span></p>
+          <p class="pub-meta">International Conference on Machine Learning, 2026. <span class="pub-badge">Oral Presentation</span></p>
           <p class="pub-links"><a href="/publications/learning-to-theorize-the-world/">Project</a> / <a href="https://arxiv.org/abs/2605.03413">arXiv</a> / <a href="https://arxiv.org/pdf/2605.03413">PDF</a></p>
         </div>
       </li>

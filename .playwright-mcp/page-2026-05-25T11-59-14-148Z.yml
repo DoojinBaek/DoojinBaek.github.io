@@ -1,0 +1,477 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - heading "Learning to Theorize the World from Observation" [level=1] [ref=e4]
+    - paragraph [ref=e5]:
+      - link "Doojin Baek" [ref=e6] [cursor=pointer]:
+        - /url: https://scholar.google.com/citations?user=11X2vTQAAAAJ
+      - superscript [ref=e7]: "*,1"
+      - text: ","
+      - link "Gyubin Lee" [ref=e8] [cursor=pointer]:
+        - /url: https://lee-gyubin.github.io/
+      - superscript [ref=e9]: "*,1"
+      - text: ","
+      - link "Junyeob Baek" [ref=e10] [cursor=pointer]:
+        - /url: https://dion-jy.github.io
+      - superscript [ref=e11]: "1"
+      - text: ","
+      - link "Hosung Lee" [ref=e12] [cursor=pointer]:
+        - /url: https://confeitohs.notion.site
+      - superscript [ref=e13]: "1"
+      - text: ","
+      - link "Sungjin Ahn" [ref=e14] [cursor=pointer]:
+        - /url: https://mlml.kaist.ac.kr/sungjinahn
+      - superscript [ref=e15]: "1"
+    - paragraph [ref=e16]:
+      - superscript [ref=e17]: "1"
+      - text: KAIST
+    - paragraph [ref=e18]: "* Equal contribution"
+    - paragraph [ref=e19]: ICML 2026, Oral Presentation (Top 0.7% = 168/23,918)
+    - generic [ref=e20]:
+      - link "Paper" [ref=e21] [cursor=pointer]:
+        - /url: https://arxiv.org/pdf/2605.03413
+      - link "arXiv" [ref=e22] [cursor=pointer]:
+        - /url: https://arxiv.org/abs/2605.03413
+  - generic [ref=e23]:
+    - figure "Learning-to-Theorize (L2T) framework. From raw before-and-after observation pairs, L2T aims to recover reusable primitives and compose them into executable theories. Once a model learns such primitives, novel phenomena can be explained by recombining them; memorized composite representations fail when the required composition was never observed." [ref=e24]:
+      - img "Learning to Theorize framework overview" [ref=e25]
+      - generic [ref=e26]:
+        - strong [ref=e27]: Learning-to-Theorize (L2T) framework.
+        - text: From raw before-and-after observation pairs, L2T aims to recover reusable primitives and compose them into executable theories. Once a model learns such primitives, novel phenomena can be explained by recombining them; memorized composite representations fail when the required composition was never observed.
+    - heading "Abstract" [level=2] [ref=e28]
+    - paragraph [ref=e29]:
+      - text: "What does it mean to understand the world? Contemporary world models often operationalize understanding as accurate future prediction in latent or observation space. Developmental cognitive science suggests a different view: human understanding emerges through the construction of internal theories of how the world works. Inspired by this theory-building view, we introduce"
+      - strong [ref=e30]: Learning-to-Theorize (L2T)
+      - text: ", a learning paradigm for inferring explicit explanatory theories from raw, non-textual observations."
+    - paragraph [ref=e31]:
+      - text: We instantiate L2T with
+      - strong [ref=e32]: Neural Theorizer (NEO)
+      - text: ", a probabilistic neural model that induces latent programs as a learned Language of Thought and executes them through a shared transition model. In NEO, a theory is represented as an executable, compositional program whose learned primitives can be systematically recombined to explain novel phenomena. Experiments show that this formulation enables"
+      - strong [ref=e33]: explanation-driven generalization
+      - text: ": observations can be understood in terms of the programs that generate them, not only reconstructed as outputs."
+    - heading "Overview" [level=2] [ref=e34]
+    - paragraph [ref=e35]: Most AI systems are trained to predict, reconstruct, or solve a task. These objectives can succeed without discovering the mechanisms that generated the observations. A model may learn that one image maps to another, or that one integer maps to another, while still failing to recover the reusable operation behind the change.
+    - paragraph [ref=e36]:
+      - text: L2T asks for a different object of learning. Given only before-and-after observation pairs
+      - generic [ref=e38]:
+        - img [ref=e39]
+        - math [ref=e53]:
+          - generic [ref=e54]: (
+          - generic [ref=e55]: x
+          - generic [ref=e56]: ","
+          - generic [ref=e57]: "y"
+          - generic [ref=e58]: )
+      - text: ", the model should infer a latent theory"
+      - generic [ref=e60]:
+        - img [ref=e61]
+        - math [ref=e67]:
+          - generic [ref=e68]: τ
+      - text: that explains how
+      - generic [ref=e70]:
+        - img [ref=e71]
+        - math [ref=e77]:
+          - generic [ref=e78]: x
+      - text: became
+      - generic [ref=e80]:
+        - img [ref=e81]
+        - math [ref=e87]:
+          - generic [ref=e88]: "y"
+      - text: . That theory should be executable, compositional, and reusable on new observations.
+    - generic [ref=e89]:
+      - generic [ref=e90]:
+        - heading "Observe" [level=3] [ref=e91]
+        - paragraph [ref=e92]: The learner receives independent before-and-after pairs. It does not receive program annotations, primitive labels, intermediate states, language descriptions, or task groups.
+      - generic [ref=e93]:
+        - heading "Theorize" [level=3] [ref=e94]
+        - paragraph [ref=e95]: The learner explains each pair by inducing a latent program made of reusable primitive operations.
+      - generic [ref=e96]:
+        - heading "Transfer" [level=3] [ref=e97]
+        - paragraph [ref=e98]: A theory counts as useful only if the same inferred program can be executed on a new source observation.
+    - heading "Transferability is the test" [level=3] [ref=e99]
+    - paragraph [ref=e100]: "The key evaluation is not whether the model reconstructs one target, but whether the explanation transfers. We give the model a support phenomenon generated by a hidden program and ask it to infer that program:"
+    - generic [ref=e102]:
+      - img [ref=e103]
+      - math [ref=e161]:
+        - generic [ref=e163]:
+          - generic [ref=e164]: τ
+          - generic [ref=e165]: ^
+        - generic [ref=e166]: =
+        - generic [ref=e167]: arg
+        - generic: ⁡
+        - generic [ref=e168]:
+          - generic [ref=e169]: max
+          - generic [ref=e171]: τ
+        - generic [ref=e172]: p
+        - generic [ref=e173]: (
+        - generic [ref=e174]: τ
+        - generic [ref=e175]: ∣
+        - generic [ref=e176]:
+          - generic [ref=e177]: x
+          - generic [ref=e178]:
+            - generic [ref=e179]: (
+            - generic [ref=e180]: "1"
+            - generic [ref=e181]: )
+        - generic [ref=e182]: ","
+        - generic [ref=e183]:
+          - generic [ref=e184]: "y"
+          - generic [ref=e185]:
+            - generic [ref=e186]: (
+            - generic [ref=e187]: "1"
+            - generic [ref=e188]: )
+        - generic [ref=e189]: )
+        - generic [ref=e190]: .
+    - paragraph [ref=e191]: "The inferred theory is then executed on a new source observation:"
+    - generic [ref=e193]:
+      - img [ref=e194]
+      - math [ref=e249]:
+        - generic [ref=e250]:
+          - generic [ref=e252]:
+            - generic [ref=e253]: "y"
+            - generic [ref=e254]: ^
+          - generic [ref=e255]:
+            - generic [ref=e256]: (
+            - generic [ref=e257]: "2"
+            - generic [ref=e258]: )
+        - generic [ref=e259]: =
+        - generic [ref=e260]:
+          - generic [ref=e261]: D
+          - generic [ref=e262]: θ
+        - generic [ref=e263]: (
+        - generic [ref=e264]:
+          - generic [ref=e265]: f
+          - generic [ref=e268]:
+            - generic [ref=e269]: τ
+            - generic [ref=e270]: ^
+        - generic [ref=e271]: (
+        - generic [ref=e272]:
+          - generic [ref=e273]: x
+          - generic [ref=e274]:
+            - generic [ref=e275]: (
+            - generic [ref=e276]: "2"
+            - generic [ref=e277]: )
+        - generic [ref=e278]: )
+        - generic [ref=e279]: )
+        - generic [ref=e280]: .
+    - paragraph [ref=e281]:
+      - text: If
+      - generic [ref=e283]:
+        - img [ref=e284]
+        - math [ref=e302]:
+          - generic [ref=e303]:
+            - generic [ref=e305]:
+              - generic [ref=e306]: "y"
+              - generic [ref=e307]: ^
+            - generic [ref=e308]:
+              - generic [ref=e309]: (
+              - generic [ref=e310]: "2"
+              - generic [ref=e311]: )
+      - text: matches the true target
+      - generic [ref=e313]:
+        - img [ref=e314]
+        - math [ref=e328]:
+          - generic [ref=e329]:
+            - generic [ref=e330]: "y"
+            - generic [ref=e331]:
+              - generic [ref=e332]: (
+              - generic [ref=e333]: "2"
+              - generic [ref=e334]: )
+      - text: ", the model has captured something closer to a reusable generative rule. If it only reconstructs"
+      - generic [ref=e336]:
+        - img [ref=e337]
+        - math [ref=e351]:
+          - generic [ref=e352]:
+            - generic [ref=e353]: "y"
+            - generic [ref=e354]:
+              - generic [ref=e355]: (
+              - generic [ref=e356]: "1"
+              - generic [ref=e357]: )
+      - text: ", it has learned an instance-specific explanation."
+    - heading "Neural Theorizer" [level=2] [ref=e358]
+    - figure "Neural Theorizer (NEO). NEO infers a latent program by iteratively selecting a primitive and executing it through a shared transition model. Each intermediate state can be decoded into a reconstruction, and the final explanation is selected by a length-aware criterion." [ref=e359]:
+      - img "Neural Theorizer model overview" [ref=e360]
+      - generic [ref=e361]:
+        - strong [ref=e362]: Neural Theorizer (NEO).
+        - text: NEO infers a latent program by iteratively selecting a primitive and executing it through a shared transition model. Each intermediate state can be decoded into a reconstruction, and the final explanation is selected by a length-aware criterion.
+    - paragraph [ref=e363]: NEO is a latent program induction model. Given an observation pair, it induces a sequence of discrete primitive symbols
+    - generic [ref=e365]:
+      - img [ref=e366]
+      - math [ref=e415]:
+        - generic [ref=e416]: τ
+        - generic [ref=e417]: =
+        - generic [ref=e418]: (
+        - generic [ref=e419]:
+          - generic [ref=e420]: z
+          - generic [ref=e422]:
+            - generic [ref=e423]: i
+            - generic [ref=e424]: "1"
+        - generic [ref=e425]: ","
+        - generic [ref=e426]:
+          - generic [ref=e427]: z
+          - generic [ref=e429]:
+            - generic [ref=e430]: i
+            - generic [ref=e431]: "2"
+        - generic [ref=e432]: ","
+        - generic [ref=e433]: …
+        - generic [ref=e434]: ","
+        - generic [ref=e435]:
+          - generic [ref=e436]: z
+          - generic [ref=e438]:
+            - generic [ref=e439]: i
+            - generic [ref=e440]: K
+        - generic [ref=e441]: )
+        - generic [ref=e442]: ","
+    - paragraph [ref=e443]: "and executes them through a shared transition operator. The same primitive vocabulary is reused across examples, so the model is pressured to discover operations that are useful beyond a single training pair. The conditional model factorizes over primitive selection and execution:"
+    - generic [ref=e445]:
+      - img [ref=e446]
+      - math [ref=e566]:
+        - generic [ref=e567]:
+          - generic [ref=e568]: p
+          - generic [ref=e569]: θ
+        - generic [ref=e570]: (
+        - generic [ref=e571]: τ
+        - generic [ref=e572]: ","
+        - generic [ref=e573]: s
+        - generic [ref=e574]: ∣
+        - generic [ref=e575]: x
+        - generic [ref=e576]: )
+        - generic [ref=e577]: =
+        - generic [ref=e578]:
+          - generic [ref=e579]: p
+          - generic [ref=e580]: θ
+        - generic [ref=e581]: (
+        - generic [ref=e582]:
+          - generic [ref=e583]: s
+          - generic [ref=e584]: "1"
+        - generic [ref=e585]: ∣
+        - generic [ref=e586]: x
+        - generic [ref=e587]: )
+        - generic [ref=e588]:
+          - generic [ref=e589]: ∏
+          - generic [ref=e590]:
+            - generic [ref=e591]: k
+            - generic [ref=e592]: =
+            - generic [ref=e593]: "1"
+          - generic [ref=e595]: K
+        - generic [ref=e596]:
+          - generic [ref=e597]: p
+          - generic [ref=e598]: θ
+        - generic [ref=e599]: (
+        - generic [ref=e600]:
+          - generic [ref=e601]: z
+          - generic [ref=e603]:
+            - generic [ref=e604]: i
+            - generic [ref=e605]: k
+        - generic [ref=e606]: ∣
+        - generic [ref=e607]:
+          - generic [ref=e608]: s
+          - generic [ref=e609]: k
+        - generic [ref=e610]: )
+        - generic [ref=e611]:
+          - generic [ref=e612]: p
+          - generic [ref=e613]: θ
+        - generic [ref=e614]: (
+        - generic [ref=e615]:
+          - generic [ref=e616]: s
+          - generic [ref=e617]:
+            - generic [ref=e618]: k
+            - generic [ref=e619]: +
+            - generic [ref=e620]: "1"
+        - generic [ref=e621]: ∣
+        - generic [ref=e622]:
+          - generic [ref=e623]: s
+          - generic [ref=e624]: k
+        - generic [ref=e625]: ","
+        - generic [ref=e626]:
+          - generic [ref=e627]: z
+          - generic [ref=e629]:
+            - generic [ref=e630]: i
+            - generic [ref=e631]: k
+        - generic [ref=e632]: )
+        - generic [ref=e633]: .
+    - paragraph [ref=e634]:
+      - text: In practice, exact marginalization over programs is intractable, so NEO uses a variational posterior
+      - generic [ref=e636]:
+        - img [ref=e637]
+        - math [ref=e664]:
+          - generic [ref=e665]:
+            - generic [ref=e666]: q
+            - generic [ref=e667]: ϕ
+          - generic [ref=e668]: (
+          - generic [ref=e669]: τ
+          - generic [ref=e670]: ","
+          - generic [ref=e671]: s
+          - generic [ref=e672]: ∣
+          - generic [ref=e673]: x
+          - generic [ref=e674]: ","
+          - generic [ref=e675]: "y"
+          - generic [ref=e676]: )
+      - text: ". The posterior acts as a goal-conditioned theory programmer: from the current latent state and target observation, it selects the next primitive that moves the execution trace toward an explanation of the target."
+    - heading "Adaptive explanation length" [level=3] [ref=e677]
+    - paragraph [ref=e678]: "Simple phenomena should not be forced into long explanations. NEO therefore uses the Minimum Description Length principle and favors explanations that are both accurate and short. At every intermediate execution step, NEO decodes a candidate reconstruction and selects the shortest accurate explanation:"
+    - generic [ref=e680]:
+      - img [ref=e681]
+      - math [ref=e755]:
+        - generic [ref=e756]:
+          - generic [ref=e757]: k
+          - generic [ref=e758]: ∗
+        - generic [ref=e759]: =
+        - generic [ref=e760]: arg
+        - generic: ⁡
+        - generic [ref=e761]:
+          - generic [ref=e762]: min
+          - generic [ref=e763]:
+            - generic [ref=e764]: k
+            - generic [ref=e765]: ∈
+            - generic [ref=e766]: "{"
+            - generic [ref=e767]: "1"
+            - generic [ref=e768]: ","
+            - generic [ref=e769]: …
+            - generic [ref=e770]: ","
+            - generic [ref=e771]: K
+            - generic [ref=e772]: +
+            - generic [ref=e773]: "1"
+            - generic [ref=e774]: "}"
+        - generic [ref=e775]:
+          - generic [ref=e776]: λ
+          - generic [ref=e778]: MDL
+          - generic [ref=e779]: k
+        - generic [ref=e780]: ℓ
+        - generic [ref=e781]: (
+        - generic [ref=e782]: "y"
+        - generic [ref=e783]: ","
+        - generic [ref=e784]:
+          - generic [ref=e786]:
+            - generic [ref=e787]: "y"
+            - generic [ref=e788]: ^
+          - generic [ref=e789]: k
+        - generic [ref=e790]: )
+        - generic [ref=e791]: ","
+    - paragraph [ref=e792]:
+      - text: where
+      - generic [ref=e794]:
+        - img [ref=e795]
+        - math [ref=e811]:
+          - generic [ref=e812]:
+            - generic [ref=e813]: λ
+            - generic [ref=e815]: MDL
+          - generic [ref=e816]: ">"
+          - generic [ref=e817]: "1"
+      - text: "penalizes longer programs. This is important for primitive discovery: without a pressure toward short reusable explanations, the model can allocate codes to entangled composite transformations and lose systematic transfer."
+    - heading "Observation-to-Theory Induction Benchmark" [level=2] [ref=e818]
+    - paragraph [ref=e819]:
+      - text: We introduce the
+      - strong [ref=e820]: Observation-to-Theory Induction Benchmark (OTIB)
+      - text: to evaluate whether a model can infer reusable primitives from raw observation pairs without supervision. Each test instance contains a support transition and a query transition generated by the same hidden program. A successful model must infer a theory from the support pair and execute it on the query input.
+    - paragraph [ref=e821]:
+      - text: OTIB separates three regimes.
+      - strong [ref=e822]: In-distribution
+      - text: tests held-out examples from observed program support.
+      - strong [ref=e823]: Compositional OOD
+      - text: holds out program compositions within the same length range.
+      - strong [ref=e824]: Length OOD
+      - text: "uses programs longer than those seen during training. The split is designed so that reconstruction alone is insufficient: a model can explain the support pair while still failing to transfer the inferred mechanism."
+    - table [ref=e826]:
+      - rowgroup [ref=e827]:
+        - row "Domain Hidden primitives Generalization" [ref=e828]:
+          - columnheader "Domain" [ref=e829]
+          - columnheader "Hidden primitives" [ref=e830]
+          - columnheader "Generalization" [ref=e831]
+      - rowgroup [ref=e832]:
+        - row "GridWorld Up, right, down, left moves on a 10x10 grid Comp. OOD + length OOD up to 8 steps" [ref=e833]:
+          - cell "GridWorld" [ref=e834]
+          - cell "Up, right, down, left moves on a 10x10 grid" [ref=e835]
+          - cell "Comp. OOD + length OOD up to 8 steps" [ref=e836]
+        - row "Arithmetic Factorization Multiplication by Comp. OOD + length OOD up to 6 steps" [ref=e837]:
+          - cell "Arithmetic Factorization" [ref=e838]
+          - cell "Multiplication by" [ref=e839]:
+            - text: Multiplication by
+            - generic [ref=e841]:
+              - img [ref=e842]
+              - math [ref=e860]:
+                - generic [ref=e861]: "2"
+                - generic [ref=e862]: ","
+                - generic [ref=e863]: "3"
+                - generic [ref=e864]: ","
+                - generic [ref=e865]: "5"
+                - generic [ref=e866]: ","
+                - generic [ref=e867]: "7"
+          - cell "Comp. OOD + length OOD up to 6 steps" [ref=e868]
+        - row "Image Editing brightness+/-, hue+/-, flip h/v, rotation, mask Comp. OOD + length OOD up to 4 steps" [ref=e869]:
+          - cell "Image Editing" [ref=e870]
+          - cell "brightness+/-, hue+/-, flip h/v, rotation, mask" [ref=e871]
+          - cell "Comp. OOD + length OOD up to 4 steps" [ref=e872]
+    - paragraph [ref=e873]:
+      - text: The parameter
+      - generic [ref=e875]:
+        - img [ref=e876]
+        - math [ref=e904]:
+          - generic [ref=e905]: α
+          - generic [ref=e906]: ∈
+          - generic [ref=e907]:
+            - generic [ref=e908]: "0.33"
+            - generic [ref=e909]: ","
+            - generic [ref=e910]: "0.66"
+            - generic [ref=e911]: ","
+            - generic [ref=e912]: "1.00"
+      - text: controls the fraction of short programs included in training. Smaller
+      - generic [ref=e914]:
+        - img [ref=e915]
+        - math [ref=e921]:
+          - generic [ref=e922]: α
+      - text: creates a harder setting where some primitives are never observed in isolation and must be discovered by decomposing entangled multi-step transitions.
+    - heading "Results" [level=2] [ref=e923]
+    - paragraph [ref=e924]: The main failure mode is the gap between self-explainability and transferability. Monolithic latent baselines can often reconstruct the support target, but the same latent action does not transfer to a query input. This indicates that the model has encoded instance-specific information rather than a reusable theory.
+    - paragraph [ref=e925]: NEO consistently improves transferability by representing explanations as sequences of learned primitives. NEO-S further improves out-of-distribution performance by sampling multiple candidate theories at test time and selecting a program that best explains the support transition.
+    - generic [ref=e926]:
+      - figure "Performance comparison on the GridWorld environment." [ref=e927]:
+        - img "GridWorld performance table" [ref=e928]
+        - generic [ref=e929]: Performance comparison on the GridWorld environment.
+      - figure "Performance comparison on the Arithmetic Factorization Reasoning task." [ref=e930]:
+        - img "Arithmetic Factorization performance table" [ref=e931]
+        - generic [ref=e932]: Performance comparison on the Arithmetic Factorization Reasoning task.
+    - paragraph [ref=e933]: On GridWorld, monolithic baselines perform well in-distribution but collapse on compositional and length OOD splits. NEO maintains strong transfer, and NEO-S approaches near-perfect transfer by sampling candidate programs. Arithmetic Factorization is stricter because successful transfer requires exact multi-step symbolic execution. NEO learns reusable multiplicative primitives, and NEO-S substantially improves length OOD performance by searching over compositions of the learned primitive set.
+    - figure "Comparison of Image Editing performance. NEO consistently outperforms baselines across all α -controlled OOD regimes and length OOD, for both self-explainability and transferability, as measured by the ℓ 1 distance (lower is better)." [ref=e934]:
+      - img "Image editing results across alpha splits and OOD settings" [ref=e935]
+      - generic [ref=e936]:
+        - text: Comparison of Image Editing performance. NEO consistently outperforms baselines across all
+        - generic [ref=e938]:
+          - img [ref=e939]
+          - math [ref=e945]:
+            - generic [ref=e946]: α
+        - text: "-controlled OOD regimes and length OOD, for both self-explainability and transferability, as measured by the"
+        - generic [ref=e948]:
+          - img [ref=e949]
+          - math [ref=e958]:
+            - generic [ref=e959]:
+              - generic [ref=e960]: ℓ
+              - generic [ref=e961]: "1"
+        - text: distance (lower is better).
+    - paragraph [ref=e962]: The same pattern appears in the high-dimensional visual setting. Image Editing requires the model to infer brightness, hue, flip, rotation, and masking operations directly from pixels. NEO achieves lower reconstruction error across compositional and length OOD regimes, supporting the interpretation that it explains target images through executable primitive edits rather than a single monolithic vector program.
+    - heading "Visualizing Theories" [level=2] [ref=e963]
+    - generic [ref=e964]:
+      - figure "NEO selects the number of steps to match the hidden rule, using short explanations for simple changes and longer ones when needed." [ref=e965]:
+        - img "Adaptive program length selection in image editing" [ref=e966]
+        - generic [ref=e967]: NEO selects the number of steps to match the hidden rule, using short explanations for simple changes and longer ones when needed.
+      - figure "For compositional OOD cases, NEO builds the target from learned primitive actions, yielding an explicit and transferable explanation." [ref=e968]:
+        - img "Qualitative image editing explanations" [ref=e969]
+        - generic [ref=e970]: For compositional OOD cases, NEO builds the target from learned primitive actions, yielding an explicit and transferable explanation.
+    - paragraph [ref=e971]: "The left visualization shows that NEO selects an explanation length that matches the underlying transformation. A one-step phenomenon receives a short explanation, while a two-step phenomenon is explained by two primitive actions. The right visualization shows why this matters: for a compositional OOD transformation, baselines generate the target through a single entangled vector program, while NEO explains the same change as a sequence of learned primitive actions."
+    - heading "Analysis" [level=2] [ref=e972]
+    - paragraph [ref=e973]:
+      - text: A central piece of evidence for L2T is whether the learned codes recover primitive structure rather than memorizing observed composite transformations. In low-
+      - generic [ref=e975]:
+        - img [ref=e976]
+        - math [ref=e982]:
+          - generic [ref=e983]: α
+      - text: settings, some primitives are never observed in isolation. A model that memorizes observed transformations can only learn entangled composite actions. NEO instead recovers primitive-level codes and composes them into multi-step programs.
+    - generic [ref=e984]:
+      - figure "NEO recovers primitive-level codes even when only a subset of primitives is directly observable in training." [ref=e985]:
+        - img "Primitiveness of learned codebook" [ref=e986]
+        - generic [ref=e987]: NEO recovers primitive-level codes even when only a subset of primitives is directly observable in training.
+      - figure "Sampling candidate theories improves test-time transfer because NEO searches over compositions of reusable primitives." [ref=e988]:
+        - img "Test-time scaling by sampling programs" [ref=e989]
+        - generic [ref=e990]: Sampling candidate theories improves test-time transfer because NEO searches over compositions of reusable primitives.
+    - heading "Takeaway" [level=2] [ref=e991]
+    - paragraph [ref=e992]: L2T reframes world modeling around explanation rather than prediction alone. The model is not asked only to forecast observations; it is asked to infer compact executable mechanisms that explain what changed and reuse those mechanisms in new contexts.
+    - paragraph [ref=e993]: "NEO provides a first proof of concept. It learns latent primitives without program supervision, composes them into executable theories, transfers inferred programs to new inputs, and improves further through test-time sampling. The current setting is still controlled: primitives are discrete, programs are short, and the benchmarks are synthetic. Extending L2T to richer environments with stochastic dynamics, partial observability, and open-ended theory spaces is the next step."
+    - heading "BibTeX" [level=2] [ref=e994]
+    - code [ref=e998]: "@inproceedings{baek2026learning, title = {Learning to Theorize the World from Observation}, author = {Baek, Doojin and Lee, Gyubin and Baek, Junyeob and Lee, Hosung and Ahn, Sungjin}, booktitle = {Proceedings of the 43rd International Conference on Machine Learning}, year = {2026} }"
