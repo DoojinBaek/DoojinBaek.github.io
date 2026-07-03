@@ -111,7 +111,7 @@ redirect_from:
 
 <div class="home-simple">
   <div class="home-intro">
-    <p>I am a master's student in the School of Computing at KAIST, advised by <a href="https://mlml.kaist.ac.kr/sungjinahn">Prof. Sungjin Ahn</a> at <a href="https://mlml.kaist.ac.kr/">MLML</a>. I received my B.S. in Computer Science from KAIST.</p>
+    <p>I am a Ph.D. student in the AI Computing at KAIST, advised by <a href="https://mlml.kaist.ac.kr/sungjinahn">Prof. Sungjin Ahn</a> at <a href="https://mlml.kaist.ac.kr/">MLML</a>. I received my B.S. in Computer Science from KAIST.</p>
     <p>My research interests lie in world models, theory learning, compositional generalization, and explanation-driven learning. I am especially interested in how models can form structured abstractions from raw observations and reuse them to explain new phenomena.</p>
     <p>Recently, I have been working on <strong>Learning to Theorize</strong>, a framework for inferring executable theories from observations without direct supervision of the underlying causes.</p>
   </div>
