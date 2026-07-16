@@ -84,6 +84,9 @@ author_profile: true
           <p class="pub-meta">
             {{ venue_name }}, {{ post.date | date: "%Y" }}{% if post.venue contains "Spotlight" %}. <span class="pub-badge">Spotlight</span>{% elsif post.venue contains "Oral" %}. <span class="pub-badge">Oral Presentation</span>{% endif %}
           </p>
+          {% if post.award %}
+            <p class="pub-meta">Award: {% if post.award_url %}<a class="pub-badge" href="{{ post.award_url }}">{{ post.award }}</a>{% else %}<span class="pub-badge">{{ post.award }}</span>{% endif %}</p>
+          {% endif %}
           <p class="pub-links">
             {% assign link_count = 0 %}
             {% if post.link and post.link contains '/publications/' %}

@@ -111,14 +111,17 @@ redirect_from:
 
 <div class="home-simple">
   <div class="home-intro">
-    <p>I am a Ph.D. student in the AI Computing at KAIST, advised by <a href="https://mlml.kaist.ac.kr/sungjinahn">Prof. Sungjin Ahn</a> at <a href="https://mlml.kaist.ac.kr/">MLML</a>. I received my B.S. in Computer Science from KAIST.</p>
-    <p>My research interests lie in world models, theory learning, compositional generalization, and explanation-driven learning. I am especially interested in how models can form structured abstractions from raw observations and reuse them to explain new phenomena.</p>
-    <p>Recently, I have been working on <strong>Learning to Theorize</strong>, a framework for inferring executable theories from observations without direct supervision of the underlying causes.</p>
+    <p>I am a Ph.D. student in AI Computing at KAIST, advised by <a href="https://mlml.kaist.ac.kr/sungjinahn">Prof. Sungjin Ahn</a> at <a href="https://mlml.kaist.ac.kr/">MLML</a>. I also received my M.S. from KAIST as a member of MLML, and my B.S. in Computer Science from KAIST.</p>
+    <p>My research focuses on <strong>World Theory Models</strong>: AI systems that construct internal theories of how the world works from observations, inspired by how humans make sense of the world through experience. My broader research interests include compositional generalization, world modeling, and reinforcement learning.</p>
   </div>
 
   <section class="home-section">
     <h2 class="home-section-title">News</h2>
     <ul class="news-list">
+      <li class="news-row">
+        <div class="news-date">Jul 2026</div>
+        <div>Our paper <em>Learning to Theorize the World from Observation</em> received the <strong>Best Paper Award</strong> at the <a href="https://compositional-learning.github.io/">ICML 2026 Workshop on Compositional Learning (CompLearn)</a>.</div>
+      </li>
       <li class="news-row">
         <div class="news-date">May 2026</div>
         <div>Our paper <em>Learning to Theorize the World from Observation</em> was selected for an ICML 2026 <strong>Oral Presentation</strong>.</div>
@@ -145,6 +148,7 @@ redirect_from:
           <p class="pub-title">Learning to Theorize the World from Observation</p>
           <p class="pub-authors"><strong>Doojin Baek</strong>*, Gyubin Lee*, Junyeob Baek, Hosung Lee, Sungjin Ahn</p>
           <p class="pub-meta">International Conference on Machine Learning, 2026. <span class="pub-badge">Oral Presentation</span></p>
+          <p class="pub-meta">Award: <a class="pub-badge" href="https://compositional-learning.github.io/">CompLearn 2026 Best Paper</a></p>
           <p class="pub-links"><a href="/publications/learning-to-theorize-the-world/">Project</a> / <a href="https://arxiv.org/abs/2605.03413">arXiv</a> / <a href="https://arxiv.org/pdf/2605.03413">PDF</a></p>
         </div>
       </li>

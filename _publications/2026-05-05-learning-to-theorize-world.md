@@ -6,6 +6,8 @@ category: conferences
 date: 2026-05-05
 venue: "ICML 2026, Oral Presentation (Top 0.7% = 168/23,918)"
 venue_html: 'ICML 2026, <span class="oral">Oral Presentation (Top 0.7% = 168/23,918)</span>'
+award: "CompLearn 2026 Best Paper"
+award_url: "https://compositional-learning.github.io/"
 permalink: /publications/learning-to-theorize-the-world/
 authors: "Doojin Baek*, Gyubin Lee*, Junyeob Baek, Hosung Lee, Sungjin Ahn"
 authors_html: '<a href="https://scholar.google.com/citations?user=11X2vTQAAAAJ">Doojin Baek</a><sup>*,1</sup>, <a href="https://lee-gyubin.github.io/">Gyubin Lee</a><sup>*,1</sup>, <a href="https://dion-jy.github.io">Junyeob Baek</a><sup>1</sup>, <a href="https://confeitohs.notion.site">Hosung Lee</a><sup>1</sup>, <a href="https://mlml.kaist.ac.kr/sungjinahn">Sungjin Ahn</a><sup>1</sup>'

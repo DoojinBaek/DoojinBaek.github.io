@@ -90,7 +90,8 @@ layout: compress
       }
 
       .project-affiliation,
-      .project-venue {
+      .project-venue,
+      .project-award {
         margin: 5px 0;
         color: #374151;
         font-size: clamp(1.05rem, 1.35vw, 1.22rem);
@@ -101,6 +102,15 @@ layout: compress
       .project-venue {
         margin-top: 10px;
         font-weight: 600;
+      }
+
+      .project-award {
+        color: #0077b6;
+        font-weight: 700;
+      }
+
+      .project-award a {
+        color: inherit;
       }
 
       .project-meta-inline {
@@ -444,6 +454,10 @@ layout: compress
           <p class="project-venue">{{ page.venue_html }}</p>
         {% elsif page.venue %}
           <p class="project-venue">{{ page.venue }}</p>
+        {% endif %}
+
+        {% if page.award %}
+          <p class="project-award">Award: {% if page.award_url %}<a href="{{ page.award_url }}">{{ page.award }}</a>{% else %}{{ page.award }}{% endif %}</p>
         {% endif %}
 
         <div class="project-links">
