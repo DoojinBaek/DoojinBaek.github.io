@@ -23,7 +23,7 @@ repository               : "DoojinBaek/DoojinBaek.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
+  avatar           : "profile-icml-oral-v2.jpg"
   name             :
   pronouns         : # example: "she/her"  
   bio              : "Machine learning researcher"
