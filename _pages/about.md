@@ -120,19 +120,19 @@ redirect_from:
     <ul class="news-list">
       <li class="news-row">
         <div class="news-date">Jul 2026</div>
-        <div>Our paper <em>Learning to Theorize the World from Observation</em> received the <strong>Best Paper Award</strong> at the <a href="https://compositional-learning.github.io/">ICML 2026 Workshop on Compositional Learning (CompLearn)</a>.</div>
+        <div>Our paper <em>Learning to Theorize the World from Observation</em> received the <a href="https://compositional-learning.github.io/"><strong>Best Paper Award</strong></a> at the ICML 2026 Workshop on Compositional Learning (CompLearn).</div>
       </li>
       <li class="news-row">
         <div class="news-date">May 2026</div>
-        <div>Our paper <em>Learning to Theorize the World from Observation</em> was selected for an ICML 2026 <strong>Oral Presentation</strong>.</div>
+        <div>Our paper <em>Learning to Theorize the World from Observation</em> was selected for an ICML 2026 <a href="https://icml.cc/virtual/2026/oral/71176"><strong>Oral Presentation</strong></a>.</div>
       </li>
       <li class="news-row">
         <div class="news-date">Mar 2026</div>
-        <div>Our paper <em>Extendable Planning via Multiscale Diffusion</em> was selected for an <strong>oral presentation</strong> at AAAI 2026.</div>
+        <div>Our paper <em>Extendable Planning via Multiscale Diffusion</em> was selected for an <a href="https://underline.io/events/501/sessions/21477/lecture/142875-extendable-planning-via-multiscale-diffusion"><strong>oral presentation</strong></a> at AAAI 2026.</div>
       </li>
       <li class="news-row">
         <div class="news-date">Jul 2025</div>
-        <div>Our paper <em>Monte Carlo Tree Diffusion for System 2 Planning</em> was selected as an ICML 2025 <strong>Spotlight</strong>.</div>
+        <div>Our paper <em>Monte Carlo Tree Diffusion for System 2 Planning</em> was selected as an ICML 2025 <a href="https://icml.cc/virtual/2025/poster/44944"><strong>Spotlight</strong></a>.</div>
       </li>
     </ul>
   </section>
