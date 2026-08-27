@@ -111,8 +111,8 @@ redirect_from:
 
 <div class="home-simple">
   <div class="home-intro">
-    <p>I am a Ph.D. student in AI Computing at KAIST, advised by <a href="https://mlml.kaist.ac.kr/sungjinahn">Prof. Sungjin Ahn</a> at <a href="https://mlml.kaist.ac.kr/">MLML</a>. I also received my M.S. from KAIST as a member of MLML, and my B.S. in Computer Science from KAIST.</p>
-    <p>My research focuses on <strong>World Theory Models</strong>: AI systems that construct internal theories of how the world works from observations, inspired by how humans make sense of the world through experience. My broader research interests include compositional generalization, world modeling, and reinforcement learning.</p>
+    <p>How do we come to understand the world? This question drives my research on <strong>World Theory Models</strong>: AI systems that construct internal theories of how the world works from observations, inspired by how humans make sense of the world through experience. My broader research interests include compositional generalization, world modeling, and reinforcement learning.</p>
+    <p>I am a Ph.D. student in AI Computing at KAIST, advised by <a href="https://mlml.kaist.ac.kr/sungjinahn">Prof. Sungjin Ahn</a> at <a href="https://mlml.kaist.ac.kr/">MLML</a>. I also completed my M.S. in the same group and earned my B.S. in Computer Science at KAIST.</p>
   </div>
 
   <section class="home-section">
