@@ -120,7 +120,7 @@ redirect_from:
     <ul class="news-list">
       <li class="news-row">
         <div class="news-date">Nov 2026</div>
-        <div>Our paper <em>BabyTheorist: A Benchmark for Learning to Theorize the World from Observation Alone</em> was accepted to the <a href="https://neurips.cc/virtual/2026/poster/139168"><strong>NeurIPS 2026 E&amp;D Track</strong></a>.</div>
+        <div>Our paper <em>BabyTheorist: A Benchmark for Learning to Theorize the World from Observation Alone</em> was accepted to the NeurIPS 2026 E&amp;D Track.</div>
       </li>
       <li class="news-row">
         <div class="news-date">Jul 2026</div>
