@@ -76,6 +76,7 @@ author_profile: true
       {% assign venue_name = venue_name | replace: "ICML 2025", "International Conference on Machine Learning" %}
       {% assign venue_name = venue_name | replace: "ICML 2024", "International Conference on Machine Learning" %}
       {% assign venue_name = venue_name | replace: "AAAI 2026", "AAAI Conference on Artificial Intelligence" %}
+      {% assign venue_name = venue_name | replace: "NeurIPS 2026", "Conference on Neural Information Processing Systems (Evaluations &amp; Datasets Track)" %}
       <li class="pub-row">
         <div class="pub-venue">{{ short_venue }}</div>
         <div>
@@ -103,6 +104,14 @@ author_profile: true
             {% endif %}
             {% if post.openreviewurl %}
               {% if link_count > 0 %} / {% endif %}<a href="{{ post.openreviewurl }}">OpenReview</a>
+              {% assign link_count = link_count | plus: 1 %}
+            {% endif %}
+            {% if post.codeurl %}
+              {% if link_count > 0 %} / {% endif %}<a href="{{ post.codeurl }}">Code</a>
+              {% assign link_count = link_count | plus: 1 %}
+            {% endif %}
+            {% if post.dataseturl %}
+              {% if link_count > 0 %} / {% endif %}<a href="{{ post.dataseturl }}">Dataset</a>
             {% endif %}
           </p>
         </div>

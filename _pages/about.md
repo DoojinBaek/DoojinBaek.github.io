@@ -119,6 +119,10 @@ redirect_from:
     <h2 class="home-section-title">News</h2>
     <ul class="news-list">
       <li class="news-row">
+        <div class="news-date">Nov 2026</div>
+        <div>We released <em>BabyTheorist</em>, a benchmark for learning to theorize the world from observation alone, accepted to the <strong>NeurIPS 2026 Evaluations &amp; Datasets Track</strong>. <a href="https://arxiv.org/abs/2611.08177">Paper</a> / <a href="https://github.com/ahn-ml/babytheorist">Code</a> / <a href="https://huggingface.co/datasets/ahn-ml/babytheorist">Dataset</a></div>
+      </li>
+      <li class="news-row">
         <div class="news-date">Jul 2026</div>
         <div>Our paper <em>Learning to Theorize the World from Observation</em> received the <a href="https://compositional-learning.github.io/"><strong>Best Paper Award</strong></a> at the ICML 2026 Workshop on Compositional Learning (CompLearn).</div>
       </li>
