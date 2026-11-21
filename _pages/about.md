@@ -120,7 +120,7 @@ redirect_from:
     <ul class="news-list">
       <li class="news-row">
         <div class="news-date">Nov 2026</div>
-        <div>We released <em>BabyTheorist</em>, a benchmark for learning to theorize the world from observation alone, accepted to the <strong>NeurIPS 2026 Evaluations &amp; Datasets Track</strong>. <a href="https://arxiv.org/abs/2611.08177">Paper</a> / <a href="https://github.com/ahn-ml/babytheorist">Code</a> / <a href="https://huggingface.co/datasets/ahn-ml/babytheorist">Dataset</a></div>
+        <div>Our paper <em>BabyTheorist: A Benchmark for Learning to Theorize the World from Observation Alone</em> was accepted to the <a href="https://neurips.cc/virtual/2026/poster/139168"><strong>NeurIPS 2026 E&amp;D Track</strong></a>.</div>
       </li>
       <li class="news-row">
         <div class="news-date">Jul 2026</div>
