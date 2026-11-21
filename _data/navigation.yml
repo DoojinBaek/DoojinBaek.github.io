@@ -11,8 +11,5 @@ main:
   - title: "Portfolio"
     url: /portfolio/
 
-  - title: "Wonder"
-    url: /wonder/
-
   - title: "Blog Posts"
     url: /year-archive/
